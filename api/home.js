@@ -2,13 +2,12 @@ import axios from './axios'
 
 export default {
     login(code) {
-        let platform = 'wechat'
-            // #ifdef MP-QQ
-        platform = 'qq'
-            // #endif
+        let platform = 'wechat';
+        // #ifdef MP-QQ
+        platform = 'qq';
+        // #endif
         return new Promise((resolve, reject) => {
             axios({
-                method: 'POST',
                 url: `/user/login`,
                 data: { code, platform }
             }).then(res => {
@@ -21,7 +20,6 @@ export default {
     getUserInfo() {
         return new Promise((resolve, reject) => {
             axios({
-                method: 'POST',
                 url: `/user/getUserMsg`,
             }).then(res => {
                 resolve(res)
@@ -39,7 +37,6 @@ export default {
     setUserInfo(avatar, name) {
         return new Promise((resolve, reject) => {
             axios({
-                method: 'POST',
                 url: '/user/setUserMsg',
                 data: { avatar, name }
             }).then(res => {
@@ -55,7 +52,6 @@ export default {
     getUserSet() {
         return new Promise((resolve, reject) => {
             axios({
-                method: 'POST',
                 url: '/user/getUserSet',
             }).then(res => {
                 resolve(res)
@@ -72,7 +68,6 @@ export default {
     updateUserSet(shareMedical) {
         return new Promise((resolve, reject) => {
             axios({
-                method: 'POST',
                 url: '/user/updateUserSet',
                 data: { shareMedical }
             }).then(res => {
@@ -90,7 +85,6 @@ export default {
     updateSetExamType(examType) {
         return new Promise((resolve, reject) => {
             axios({
-                method: 'POST',
                 url: '/user/updateSetExamType',
                 data: { examType }
             }).then(res => {
@@ -108,27 +102,8 @@ export default {
     setQrLogin(code) {
         return new Promise((resolve, reject) => {
             axios({
-                method: 'POST',
                 url: '/user/setQrLogin',
                 data: { code }
-            }).then(res => {
-                resolve(res)
-            }).catch(err => {
-                reject(err)
-            })
-        })
-    },
-    /**
-     * ai聊天
-     * @param {*} question 
-     * @returns 
-     */
-    aiChat(question) {
-        return new Promise((resolve, reject) => {
-            axios({
-                method: 'POST',
-                url: '/user/aiChat',
-                data: { question }
             }).then(res => {
                 resolve(res)
             }).catch(err => {

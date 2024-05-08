@@ -5,11 +5,11 @@ export default {
 		token: uni.getStorageSync('token') ? uni.getStorageSync('token') : '',
 	},
 	onLaunch: function (v) {
-		uni.showLoading({
-			title: '登录授权中...',
-			mask: true
-		});
-		mainLogin(v)
+		// uni.showLoading({
+		// 	title: '登录授权中...',
+		// 	mask: true
+		// });
+		// mainLogin(v)
 	},
 	onShow: function () {
 		console.log('App Show')

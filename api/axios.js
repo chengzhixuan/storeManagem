@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'production') {
     baseURL = 'https://zg.chuanmeidayin.com';
 }
 let state401 = false;
-const api = async({ url, method = 'GET', data, header = {} }) => {
+const api = async({ url, method = 'POST', data, header = {} }) => {
     let token = getApp().globalData.token;
     header['token'] = token;
     return new Promise((resolve, reject) => {
