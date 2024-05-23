@@ -13,6 +13,7 @@
  .FontBlue {
      color: #23a2ff !important;
  }
+
  .FontGreen {
      color: #40C659;
  }
@@ -114,6 +115,10 @@
      display: flex;
      flex-flow: row nowrap;
  }
+.FlexCenter{
+    align-items: center;
+    justify-content: center;
+}
  .FlexACenter {
      align-items: center;
  }
@@ -125,16 +130,18 @@
  .FlexShrink {
      flex-shrink: 0;
  }
+
  .ContainerPage {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-flow: column nowrap;
-    flex-grow: 1;
-    margin-bottom: constant(safe-area-inset-bottom);
-    margin-bottom: env(safe-area-inset-bottom);
-    position: relative;
-}
+     width: 100%;
+     height: 100%;
+     display: flex;
+     flex-flow: column nowrap;
+     flex-grow: 1;
+     margin-bottom: constant(safe-area-inset-bottom);
+     margin-bottom: env(safe-area-inset-bottom);
+     position: relative;
+     align-items: center;
+ }
 
  .RouterPage {
      width: 100%;

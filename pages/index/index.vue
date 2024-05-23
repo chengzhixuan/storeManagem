@@ -1,17 +1,40 @@
 <template>
 	<Container type="Home" class="ContainerPage">
-		<view class="HomePage RouterPage">
-			<view class="TopBgcImg">
-				<view class="TopSearch FlexRow FlexJCenter" :style="headerSyle">
-					<view class="SearchInput FlexRow FlexACenter">
-						<text class="FlexGrow FontGray">榴莲千层</text>
-						<text class="SearchInputBtn FlexRow FlexACenter FontWhite">搜索</text>
+		<view class="TopBgcImg">
+		</view>
+		<view class="TopSearch FlexRow FlexJCenter" :style="headerSyle">
+			<view class="SearchInput FlexRow FlexACenter">
+				<text class="FlexGrow FontGray">榴莲千层</text>
+				<text class="SearchInputBtn FlexRow FlexACenter FontWhite">搜索</text>
+			</view>
+		</view>
+		<view class="FlexGrow HomeList">
+			<scroll-view scroll-y class="HomeMain">
+				<view class="ClassList">
+					<view class="classItem FlexColumn FlexCenter" @click="goClass(item.id)" :key="index" v-for="(item, index) in classList">
+						<image class="classItemImg" :src="item.image" alt=""></image>
+						<text class="classItemTitle">{{ item.title }}</text>
 					</view>
 				</view>
-			</view>
-			<scroll-view scroll-y class="HomeMain">
-
-
+				<view class="KeyRecommend FlexRow">
+					<view v-for="(item, index) in keyRecommend" :key="index" class="KeyRecommendItem FlexColumn">
+						<text class="KeyRecommendTitle">{{ item.title }}</text>
+						<text class="FontGray KeyRecommendKey">{{ item.keyWord }}</text>
+						<view class="FlexRow KeyRecommendItemList">
+							<view class="KeyRecommendItemLiItem" v-for="(x, index) in item.list" :key="index">
+								<image class="KeyRecommendImg" :src="x.image" alt=""></image>
+								<text class="KeyRecommendPrice">{{ x.price }}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+				<scroll-view type="custom">
+					<grid-view type="masonry" main-axis-gap="20rpx" cross-axis-gap="20rpx" class="RecommendList">
+						<template v-for="(item, index) in recommendList" :key="index">
+							<ColumnShopItem class="RecommendListItem" :item="item"></ColumnShopItem>
+						</template>
+					</grid-view>
+				</scroll-view>
 			</scroll-view>
 		</view>
 	</Container>
@@ -20,12 +43,44 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { ref, onMounted, watch } from 'vue'
+import ColumnShopItem from '@/components/columnShopItem'
 import api from '@/api/index.js'
 import { PublicStore } from '@/store/index'
 const dayjs = require('../../static/js/day.js');
 const store = PublicStore()
 let headerSyle = ref({})
 let tips = ref(null)
+let classList = ref([
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+])
+let keyRecommend = ref([
+	{ title: '时令上新', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }, { price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }] },
+	{ title: '回购榜单', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }, { price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }] },
+	{ title: '限时疯抢', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }], }
+]);
+let recommendList = ref([
+	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+])
 let menu = uni.getMenuButtonBoundingClientRect()
 headerSyle.value = {
 	paddingTop: menu.top + menu.height + 5 + 'px',
@@ -34,25 +89,22 @@ onLoad((option) => {
 })
 </script>
 <style lang="less" scoped>
-.HomePage {
-	position: relative;
-}
-
 .TopBgcImg {
 	top: 0px;
 	position: absolute;
 	width: 100%;
 	height: 466rpx;
 	background: linear-gradient(360deg, #fff 0%, #abe4ff 100%);
+}
 
-	.TopSearch {
-		padding-bottom: 20rpx;
-	}
+.TopSearch {
+	padding-bottom: 20rpx;
+	z-index: 10;
 
 	.SearchInput {
 		height: 60rpx;
 		background-color: #fff;
-		width: 90%;
+		width: 710rpx;
 		box-sizing: border-box;
 		padding-left: 20rpx;
 		border-radius: 30rpx;
@@ -67,13 +119,93 @@ onLoad((option) => {
 	}
 }
 
+.HomeList {
+	height: 100rpx;
+	width: 100%;
+	overflow: hidden;
+}
+
 .HomeMain {
 	width: 100%;
 	height: 100%;
-	position: absolute;
 	display: flex;
 	flex-flow: column nowrap;
 	z-index: 10;
+}
 
+.ClassList {
+	background-color: #fff;
+	border-radius: 16rpx;
+	width: 710rpx;
+	margin: 0rpx 20rpx;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	padding: 20rpx 10rpx 0rpx 10rpx;
+	box-sizing: border-box;
+
+	.classItem {
+		margin: 0rpx 10rpx;
+		margin-bottom: 20rpx;
+	}
+
+	.classItemImg {
+		width: 100rpx;
+		height: 100rpx;
+		border-radius: 50%;
+	}
+
+	.classItemTitle {
+		font-size: 24rpx;
+		margin-top: 10rpx;
+	}
+}
+
+.KeyRecommend {
+	width: 710rpx;
+	margin: 20rpx 20rpx 0rpx 20rpx;
+
+	.KeyRecommendItem {
+		border-radius: 16rpx;
+		margin-right: 10rpx;
+		padding: 15rpx 15rpx 0rpx 15rpx;
+
+		&:first-child {
+			background: linear-gradient(to bottom, #c7f0d0, #fff);
+		}
+
+		&:nth-child(2) {}
+
+		&:last-child {
+			margin-right: 0rpx;
+		}
+		.KeyRecommendTitle{
+			font-size: 36rpx;
+			font-weight: bold;
+			font-family: 楷体;
+		}
+		.KeyRecommendKey{
+			margin-top: 10rpx;
+		}
+	}
+
+	.KeyRecommendItemList {
+		.KeyRecommendImg {
+			width: 100rpx;
+			height: 100rpx;
+		}
+	}
+}
+
+.RecommendList {
+	width: 710rpx;
+	margin: 20rpx;
+}
+
+.RecommendListItem {
+	display: block;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
 }
 </style>
