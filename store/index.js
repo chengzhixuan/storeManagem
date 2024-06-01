@@ -5,6 +5,8 @@ export const PublicStore = defineStore('Public', {
         return {
             userMsg: {},
             hasLogin: false,
+            cartCount: 0,
+            cartAnimation: {},
         };
     },
     getters: {
@@ -13,7 +15,13 @@ export const PublicStore = defineStore('Public', {
         },
         getHasLogin: (state) => {
             return state.hasLogin
-        }
+        },
+        getCartCount: (state) => {
+            return state.cartCount
+        },
+        getCartAnimation: (state) => {
+            return state.cartAnimation
+        },
     },
     // 也可以这样定义
     actions: {
@@ -22,6 +30,12 @@ export const PublicStore = defineStore('Public', {
         },
         setHasLogin(msg) {
             this.hasLogin = msg
-        }
+        },
+        setCartCount() {
+            this.cartCount++
+        },
+        setCartAnimation(state) {
+            this.cartAnimation = state
+        },
     },
 });

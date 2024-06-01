@@ -8,7 +8,7 @@
                 <text class="RecommendItemDecimal FontRed FontSize26" v-if='decimalPoint'>.{{ decimalPoint }}</text>
                 <text class="RecommendItemUnit FontSize26 FontGray">/{{ props.item.unit }}</text>
             </view>
-            <view class="RecommendItemIcon FlexRow FlexCenter">
+            <view @click.stop="addShoppingCart" class="RecommendItemIcon FlexRow FlexCenter">
                 <iconfont class="FlexRow FlexCenter" :size="28" :color="'#fff'" name="gouwuche1" />
                 <text class="RecommendItemCount">x2</text>
             </view>
@@ -16,7 +16,10 @@
     </view>
 </template>
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue'
+import { PublicStore } from '@/store/index'
+import { ref, onMounted, watch, nextTick, computed } from 'vue'
+const store = PublicStore()
+const sys = uni.getSystemInfoSync();
 const props = defineProps({
     item: { type: Object, default: () => { } }
 })
@@ -24,12 +27,18 @@ const decimalPoint = computed(() => {
     let arr = props.item.price.toString().split('.')
     return arr[1] ? arr[1] : ''
 })
+const addShoppingCart = (e) => {
+    store.setCartAnimation({ show: true, left: e.detail.x, top: e.detail.y })
+}
+const goDetail = () => {
+}
 </script>
 <style lang="less">
 .RecommendItem {
     background-color: #fff;
     border-radius: 16rpx;
     width: 345rpx;
+
     .RecommendItemImg {
         border-radius: 16rpx 16rpx 0rpx 0rpx;
         width: 345rpx;
@@ -64,7 +73,8 @@ const decimalPoint = computed(() => {
         background-color: #23a2ff;
         position: relative;
     }
-    .RecommendItemCount{
+
+    .RecommendItemCount {
         position: absolute;
         background-color: rgba(252, 75, 59, 0.8);
         font-size: 20rpx;

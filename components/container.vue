@@ -6,27 +6,37 @@
             <text :class="type === 'Home' ? 'FontBlue' : ''" class="FooterTitle">首页</text>
         </view>
         <view @click="goPage('/pages/healthy/recordList')" class="FooterMenu">
-            <iconfont :name="type === 'class' ? 'fenlei' : 'chanpinfenlei'" />
+            <iconfont :name="type === 'class' ? 'chanpinfenlei' : 'fenlei'" />
             <text :class="type === 'class' ? 'FontBlue' : ''" class="FooterTitle">分类</text>
         </view>
         <view @click="goPage('/pages/healthy/recordList')" class="FooterMenu">
-            <iconfont :name="type === 'recordList' ? 'gouwuche1' : 'gouwuchefill'" />
+            <iconfont :style="animation" :name="type === 'recordList' ? 'gouwuchefill' : 'gouwuche1'" />
             <text :class="type === 'recordList' ? 'FontBlue' : ''" class="FooterTitle">购物车</text>
+            <view class="FooterNum" v-if="store.cartCount > 0">{{ store.cartCount }}</view>
         </view>
         <view @click="goPage('/pages/index/mine')" class="FooterMenu">
-            <iconfont :name="type === 'mine' ? 'wode2' : 'biaoqianA01_wode-75'" />
+            <iconfont :name="type === 'mine' ? 'biaoqianA01_wode-75' : 'wode2'" />
             <text :class="type === 'mine' ? 'FontBlue' : ''" class="FooterTitle">我</text>
         </view>
     </view>
 </template>
 <script setup>
-import { toRefs } from 'vue'
+import { toRefs, ref, watch } from 'vue'
+import { PublicStore } from '@/store/index'
+const store = PublicStore()
+let animation = ref('')
 const props = defineProps({
     type: {
         type: String,
         default: 'Home'
     }
 })
+watch(() => store.cartCount, () => {
+    animation.value = 'transform:scale(1.5,1.5);'
+    setTimeout(() => {
+        animation.value = 'transform:scale(1,1);'
+    }, 100)
+})  
 const { type } = toRefs(props)
 const goPage = (url) => {
     uni.reLaunch({ url: url })
@@ -51,11 +61,23 @@ const goPage = (url) => {
         align-items: center;
         justify-content: center;
         padding: 10rpx 40rpx;
+        position: relative;
 
         .FooterTitle {
             font-size: 24rpx;
             margin-top: 10rpx;
             color: #999;
+        }
+
+        .FooterNum {
+            position: absolute;
+            background-color: #fe432e;
+            color: #fff;
+            border-radius: 50%;
+            padding: 0rpx 8rpx;
+            font-size: 22rpx;
+            top: 0rpx;
+            right: 40rpx;
         }
     }
 }

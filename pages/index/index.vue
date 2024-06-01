@@ -21,9 +21,9 @@
 						<text class="KeyRecommendTitle">{{ item.title }}</text>
 						<text class="FontGray KeyRecommendKey">{{ item.keyWord }}</text>
 						<view class="FlexRow KeyRecommendItemList">
-							<view class="KeyRecommendItemLiItem" v-for="(x, index) in item.list" :key="index">
+							<view class="KeyRecommendItemLiItem FlexColumn FlexCenter" v-for="(x, index) in item.list" :key="index">
 								<image class="KeyRecommendImg" :src="x.image" alt=""></image>
-								<text class="KeyRecommendPrice">{{ x.price }}</text>
+								<text class="KeyRecommendPrice FontRed">¥{{ x.price }}</text>
 							</view>
 						</view>
 					</view>
@@ -39,11 +39,13 @@
 		</view>
 	</Container>
 	<Tips ref="tips"></Tips>
+	<AddCartAnimation class="AddCartAnimations"></AddCartAnimation>
 </template>
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { ref, onMounted, watch } from 'vue'
 import ColumnShopItem from '@/components/columnShopItem'
+import AddCartAnimation from '@/components/addCartAnimation'
 import api from '@/api/index.js'
 import { PublicStore } from '@/store/index'
 const dayjs = require('../../static/js/day.js');
@@ -64,7 +66,7 @@ let classList = ref([
 ])
 let keyRecommend = ref([
 	{ title: '时令上新', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }, { price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }] },
-	{ title: '回购榜单', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }, { price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }] },
+	{ title: '回购榜单', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }] },
 	{ title: '限时疯抢', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }], }
 ]);
 let recommendList = ref([
@@ -163,36 +165,62 @@ onLoad((option) => {
 
 .KeyRecommend {
 	width: 710rpx;
-	margin: 20rpx 20rpx 0rpx 20rpx;
+	margin: 20rpx;
+	justify-content: space-between;
 
 	.KeyRecommendItem {
 		border-radius: 16rpx;
 		margin-right: 10rpx;
-		padding: 15rpx 15rpx 0rpx 15rpx;
+		padding:15rpx;
 
 		&:first-child {
-			background: linear-gradient(to bottom, #c7f0d0, #fff);
+			background: linear-gradient(#c7f0d0 0%, rgb(234, 248, 241) 20%, #fff 100%);
 		}
 
-		&:nth-child(2) {}
+		&:nth-child(2) {
+			background: linear-gradient(rgb(255, 232, 201) 0%, rgb(254, 251, 241) 20%, #fff 100%);
+		}
 
 		&:last-child {
+			background: linear-gradient(rgb(252, 201, 200) 0%, rgb(253, 243, 244) 20%, #fff 100%);
 			margin-right: 0rpx;
 		}
-		.KeyRecommendTitle{
+
+		.KeyRecommendTitle {
 			font-size: 36rpx;
 			font-weight: bold;
 			font-family: 楷体;
 		}
-		.KeyRecommendKey{
-			margin-top: 10rpx;
+
+		.KeyRecommendKey {
+			margin-top: 6rpx;
+			font-size: 24rpx;
 		}
 	}
 
 	.KeyRecommendItemList {
+		justify-content: space-between;
+		margin-top: 10rpx;
+		.KeyRecommendItemLiItem {
+			position: relative;
+			padding-bottom: 20rpx;
+			&+.KeyRecommendItemLiItem{
+				margin-left: 10rpx;
+			}
+		}
+
 		.KeyRecommendImg {
-			width: 100rpx;
-			height: 100rpx;
+			width: 145rpx;
+			height: 145rpx;
+			border-radius: 8rpx;
+		}
+		.KeyRecommendPrice{
+			position: absolute;
+			background-color: #fefefe;
+			border-radius: 10rpx;
+			bottom: 0rpx;
+			font-weight: 500;
+			padding: 0rpx 10rpx;
 		}
 	}
 }
