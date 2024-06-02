@@ -21,8 +21,8 @@ watch(() => store.cartAnimation, (v) => {
 </script>
 <style lang="less" scoped>
 .AddCartAnimation {
-    width: 30rpx;
-    height: 30rpx;
+    width: 20rpx;
+    height: 20rpx;
     border-radius: 50%;
     background-color: #23a2ff;
     position: fixed;

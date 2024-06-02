@@ -1,8 +1,12 @@
 <template>
 	<Container type="Home" class="ContainerPage">
-		<view class="TopBgcImg">
+		<view class="IndexHeader FlexShrink FlexRow" :style="headerSyle">
+			<iconfont class="IndexHeaderLogo" size="40" name="dizhiguanli" />
+			<text class="IndexHeaderLeft">太平洋海底比奇堡</text>
+			<view class="TopBgcImg"></view>
 		</view>
-		<view class="TopSearch FlexRow FlexJCenter" :style="headerSyle">
+
+		<view class="TopSearch FlexRow FlexJCenter">
 			<view class="SearchInput FlexRow FlexACenter">
 				<text class="FlexGrow FontGray">榴莲千层</text>
 				<text class="SearchInputBtn FlexRow FlexACenter FontWhite">搜索</text>
@@ -84,24 +88,46 @@ let recommendList = ref([
 	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
 ])
 let menu = uni.getMenuButtonBoundingClientRect()
+// headerSyle.value = {
+// 	paddingTop: menu.top + menu.height + 5 + 'px',
+// }
 headerSyle.value = {
-	paddingTop: menu.top + menu.height + 5 + 'px',
+	height: menu.height + 'px',
+	paddingTop: menu.top + 'px',
 }
 onLoad((option) => {
 })
 </script>
 <style lang="less" scoped>
-.TopBgcImg {
-	top: 0px;
-	position: absolute;
+.IndexHeader {
 	width: 100%;
-	height: 466rpx;
-	background: linear-gradient(360deg, #fff 0%, #abe4ff 100%);
+	position: relative;
+	align-items: center;
+
+	.TopBgcImg {
+		top: 0px;
+		position: absolute;
+		width: 100%;
+		z-index: -1;
+		height: 466rpx;
+		background: linear-gradient(360deg, #fff 0%, #abe4ff 100%);
+	}
+
+	.IndexHeaderLogo {
+		margin-left: 20rpx;
+		margin-right:6rpx;
+	}
+
+	.IndexHeaderLeft {
+		font-size: 28rpx;
+	}
 }
+
 
 .TopSearch {
 	padding-bottom: 20rpx;
 	z-index: 10;
+	padding-top: 10px;
 
 	.SearchInput {
 		height: 60rpx;
@@ -171,7 +197,7 @@ onLoad((option) => {
 	.KeyRecommendItem {
 		border-radius: 16rpx;
 		margin-right: 10rpx;
-		padding:15rpx;
+		padding: 15rpx;
 
 		&:first-child {
 			background: linear-gradient(#c7f0d0 0%, rgb(234, 248, 241) 20%, #fff 100%);
@@ -201,10 +227,12 @@ onLoad((option) => {
 	.KeyRecommendItemList {
 		justify-content: space-between;
 		margin-top: 10rpx;
+
 		.KeyRecommendItemLiItem {
 			position: relative;
 			padding-bottom: 20rpx;
-			&+.KeyRecommendItemLiItem{
+
+			&+.KeyRecommendItemLiItem {
 				margin-left: 10rpx;
 			}
 		}
@@ -214,7 +242,8 @@ onLoad((option) => {
 			height: 145rpx;
 			border-radius: 8rpx;
 		}
-		.KeyRecommendPrice{
+
+		.KeyRecommendPrice {
 			position: absolute;
 			background-color: #fefefe;
 			border-radius: 10rpx;

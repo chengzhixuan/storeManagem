@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // shouye1 | gouwuchefill | gouwuche1 | biaoqiankuozhan_shouye-151 | wode2 | biaoqianA01_wode-75 | fenlei | chanpinfenlei
+    // dizhiguanli | shouye1 | gouwuchefill | gouwuche1 | biaoqiankuozhan_shouye-151 | wode2 | biaoqianA01_wode-75 | fenlei | chanpinfenlei
     name: {
       type: String,
     },

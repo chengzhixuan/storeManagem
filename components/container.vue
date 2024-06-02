@@ -5,11 +5,11 @@
             <iconfont :name="type === 'Home' ? 'biaoqiankuozhan_shouye-151' : 'shouye1'" />
             <text :class="type === 'Home' ? 'FontBlue' : ''" class="FooterTitle">首页</text>
         </view>
-        <view @click="goPage('/pages/healthy/recordList')" class="FooterMenu">
+        <view @click="goPage('/pages/index/classification')" class="FooterMenu">
             <iconfont :name="type === 'class' ? 'chanpinfenlei' : 'fenlei'" />
             <text :class="type === 'class' ? 'FontBlue' : ''" class="FooterTitle">分类</text>
         </view>
-        <view @click="goPage('/pages/healthy/recordList')" class="FooterMenu">
+        <view @click="goPage('/pages/index/recordList')" class="FooterMenu">
             <iconfont :style="animation" :name="type === 'recordList' ? 'gouwuchefill' : 'gouwuche1'" />
             <text :class="type === 'recordList' ? 'FontBlue' : ''" class="FooterTitle">购物车</text>
             <view class="FooterNum" v-if="store.cartCount > 0">{{ store.cartCount }}</view>
