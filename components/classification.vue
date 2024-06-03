@@ -24,9 +24,9 @@
 					</view>
 				</view>
 			</scroll-view>
-			<scroll-view scroll-y class="ClassShopScroll FlexGrow" :refresher-triggered="triggered" @scroll="scroll" :scroll-top="scrollTop" refresher-enabled @refresherrefresh="onRefresh" @refresherrestore="refresherrestore" @scrolltolower="scrolltolower">
+			<scroll-view scroll-y class="ClassShopScroll FlexGrow">
 				<view class="ShopLists FlexGrow">
-					<RowShopItem v-for="(item, index) in recommendList" :key="index" :item="item"></RowShopItem>
+					<ColumnShopItem class="RecommendListItem" :item="item"></ColumnShopItem>
 				</view>
 			</scroll-view>
 		</view>
@@ -37,7 +37,7 @@
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
 import { ref, onMounted, watch } from 'vue'
-import RowShopItem from '@/components/rowShopItem'
+import ColumnShopItem from '@/components/columnShopItem'
 import AddCartAnimation from '@/components/addCartAnimation'
 import api from '@/api/index.js'
 import { PublicStore } from '@/store/index'
@@ -47,11 +47,8 @@ let tips = ref(null)
 let classList = ref([])
 let selectClass = ref(0)
 let subClass = ref(0)
-let pageNo = ref(1)
-let scrollTop = ref(0)
-let triggered = ref(true)
 let recommendList = ref([
-	{ title: '麻辣小王子100g', subTitle: ['肉质饱满', '个大肉厚'], addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
 	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
 	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
 	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
@@ -77,40 +74,6 @@ onLoad((option) => {
 		})
 	}
 })
-const scroll = (e) => { // 滚动
-	scrollTop.value = e.detail.scrollTop
-}
-const onRefresh = () => {
-	console.log('onRefresh')
-	triggered.value = false;
-}
-const refresherrestore = () => { // 下拉刷新
-	console.log('refresherrestore')
-	if (subClass.value > 0) {
-		subClass.value--
-		pageNo.value = 0
-		recommendList.value = recommendList.value.slice(0, 10)
-		triggered.value = 'restore';
-	} else {
-		pageNo.value = 0
-		recommendList.value = recommendList.value.slice(0, 10)
-	}
-}
-const scrolltolower = () => { // 加载更多
-	if (pageNo.value > 3) {
-		pageNo.value = 0
-		recommendList.value = recommendList.value.slice(0, 10)
-		subClass.value++
-		setTimeout(() => {
-			scrollTop.value = 0
-		}, 200)
-	} else {
-		setTimeout(() => {
-			pageNo.value++
-			recommendList.value = recommendList.value.concat(recommendList.value.slice(0, 10))
-		}, 200)
-	}
-}
 const classChagne = (v, index) => {
 	selectClass.value = index
 }
@@ -232,7 +195,6 @@ const subClassChagne = (v, index) => {
 
 	.ShopLists {
 		height: 100%;
-		width: 100%;
 		background-color: #fff;
 		z-index: 10;
 	}

@@ -34,9 +34,7 @@
 				</view>
 				<scroll-view type="custom">
 					<grid-view type="masonry" main-axis-gap="20rpx" cross-axis-gap="20rpx" class="RecommendList">
-						<template v-for="(item, index) in recommendList" :key="index">
-							<ColumnShopItem class="RecommendListItem" :item="item"></ColumnShopItem>
-						</template>
+						<ColumnShopItem v-for="(item, index) in recommendList" :key="index" class="RecommendListItem" :item="item"></ColumnShopItem>
 					</grid-view>
 				</scroll-view>
 			</scroll-view>
@@ -115,7 +113,7 @@ onLoad((option) => {
 
 	.IndexHeaderLogo {
 		margin-left: 20rpx;
-		margin-right:6rpx;
+		margin-right: 6rpx;
 	}
 
 	.IndexHeaderLeft {
