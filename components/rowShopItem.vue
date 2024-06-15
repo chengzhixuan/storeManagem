@@ -9,6 +9,7 @@
             <text class="FlexGrow"></text>
             <view class="ShopItemPriceBox FlexRow FlexACenter">
                 <view>
+                    <text class="FontRed FontWeight FontSize26">¥</text>
                     <text class="ShopItemPrice FontRed FontSize30">{{ parseInt(props.item.price) }}</text>
                     <text class="ShopItemDecimal FontRed FontSize26" v-if='decimalPoint'>.{{ decimalPoint }}</text>
                     <text class="ShopItemUnit FontSize26 FontGray">/{{ props.item.unit }}</text>

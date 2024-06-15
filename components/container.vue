@@ -2,20 +2,20 @@
     <slot></slot>
     <view class="FooterCom">
         <view @click="goPage('/pages/index/index')" class="FooterMenu">
-            <iconfont :name="type === 'Home' ? 'biaoqiankuozhan_shouye-151' : 'shouye1'" />
+            <i class="iconfont" :class="type === 'Home' ? 'icon-biaoqiankuozhan_shouye-151 FontBlue' : 'icon-shouye1'"></i>
             <text :class="type === 'Home' ? 'FontBlue' : ''" class="FooterTitle">首页</text>
         </view>
         <view @click="goPage('/pages/index/classification')" class="FooterMenu">
-            <iconfont :name="type === 'class' ? 'chanpinfenlei' : 'fenlei'" />
+            <i class="iconfont" :class="type === 'class' ? 'icon-chanpinfenlei FontBlue' : 'icon-fenlei'"></i>
             <text :class="type === 'class' ? 'FontBlue' : ''" class="FooterTitle">分类</text>
         </view>
-        <view @click="goPage('/pages/index/recordList')" class="FooterMenu">
-            <iconfont :style="animation" :name="type === 'recordList' ? 'gouwuchefill' : 'gouwuche1'" />
-            <text :class="type === 'recordList' ? 'FontBlue' : ''" class="FooterTitle">购物车</text>
+        <view @click="goPage('/pages/index/shoppingCart')" class="FooterMenu">
+            <i :style="animation" class="iconfont" :class="type === 'shoppingCart' ? 'icon-gouwuchefill FontBlue' : 'icon-gouwuche1'"></i>
+            <text :class="type === 'shoppingCart' ? 'FontBlue' : ''" class="FooterTitle">购物车</text>
             <view class="FooterNum" v-if="store.cartCount > 0">{{ store.cartCount }}</view>
         </view>
         <view @click="goPage('/pages/index/mine')" class="FooterMenu">
-            <iconfont :name="type === 'mine' ? 'biaoqianA01_wode-75' : 'wode2'" />
+            <i class="iconfont" :class="type === 'mine' ? 'icon-biaoqianA01_wode-75 FontBlue' : 'icon-wode2'"></i>
             <text :class="type === 'mine' ? 'FontBlue' : ''" class="FooterTitle">我</text>
         </view>
     </view>
@@ -36,7 +36,7 @@ watch(() => store.cartCount, () => {
     setTimeout(() => {
         animation.value = 'transform:scale(1,1);'
     }, 100)
-})  
+})
 const { type } = toRefs(props)
 const goPage = (url) => {
     uni.reLaunch({ url: url })

@@ -1,6 +1,18 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
         {
+            "path": "pages/index/confirmOrder",
+            "style": {
+                "navigationBarTitleText": "确认订单"
+            }
+        },
+        {
+            "path": "pages/index/shoppingCart",
+            "style": {
+                "navigationBarTitleText": "盒马鲜生"
+            }
+        },
+        {
             "path": "pages/index/classification",
             "style": {
                 "navigationBarTitleText": "盒马鲜生"

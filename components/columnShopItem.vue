@@ -4,6 +4,7 @@
         <text class="RecommendItemTitle">{{ props.item.title }}</text>
         <view class="RecommendItemPriceBox FlexRow FlexACenter">
             <view>
+                <text class="FontRed FontWeight FontSize26">¥</text>
                 <text class="RecommendItemPrice FontRed FontSize30">{{ parseInt(props.item.price) }}</text>
                 <text class="RecommendItemDecimal FontRed FontSize26" v-if='decimalPoint'>.{{ decimalPoint }}</text>
                 <text class="RecommendItemUnit FontSize26 FontGray">/{{ props.item.unit }}</text>

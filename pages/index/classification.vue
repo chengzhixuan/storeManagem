@@ -159,8 +159,9 @@ const subClassChagne = (v, index) => {
 		}
 
 		.ClassItemContainer {
-			border: 4rpx solid #fff;
+			border: 4rpx solid #f0f0f0;
 			border-radius: 50%;
+			background-color: #fff;
 			padding: 4rpx;
 			width: 92rpx;
 			height: 92rpx;
