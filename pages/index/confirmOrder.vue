@@ -1,7 +1,88 @@
 <template>
-	<Container type="shoppingCart" class="ContainerPage">
-		
-	</Container>
+	<view class="ContainerPage ConfirmOrderPage">
+		<scroll-view scroll-y>
+			<view class="PageCenter OrderTypes FlexRow">
+				<view class="FlexRow FlexCenter OrderType" @click="orderType = 1" :class="orderType === 1 ? 'OrderTypeActive' : ''">
+					<text class="iconfont icon-ziqu"></text>
+					<text class="FontSize30">自取</text>
+				</view>
+				<view class="FlexRow FlexCenter OrderType" @click="orderType = 2" :class="orderType === 2 ? 'OrderTypeActive' : ''">
+					<text class="iconfont icon-waimai"></text>
+					<text class="FontSize30">外卖</text>
+				</view>
+			</view>
+			<view v-if="orderType === 1" class="PageCenter OrderSelfPickUpPhone FlexRow FlexAcenter">
+				<text class="FontSize28 FontDefault FlexRow FlexCenter">预留手机</text>
+				<input type="number" class="ReservePhone FontSize28 FlexGrow" placeholder="选填，订单异常时联系" placeholder-style="color:#999" v-model="reservePhone" />
+			</view>
+			<view v-if="orderType === 1" class="PageCenter OrderSelfPickUp FlexRow">
+				<view class="FlexRow FlexCenter OrderSelfPickUpType" :class="selfPickUpType === 1 ? 'OrderSelfPickUpTypeActive' : ''" @click="selfPickUpType = 1">
+					<text class="iconfont icon-diannei"></text>
+					<text class="FontSize26">店内就餐</text>
+					<text class="iconfont icon-dagou"></text>
+				</view>
+				<view class="FlexRow FlexCenter OrderSelfPickUpType" :class="selfPickUpType === 2 ? 'OrderSelfPickUpTypeActive' : ''" @click="selfPickUpType = 2">
+					<text class="iconfont icon-waidai"></text>
+					<text class="FontSize26">打包外带</text>
+					<text class="iconfont icon-dagou"></text>
+				</view>
+			</view>
+			<view v-else>
+				<text class="iconfont icon-dizhiguanli"></text>
+				<view>
+					<text>西溪龙湖天街3-608</text>
+					<text>刘备 11267560822</text>
+				</view>
+				<text class="iconfont icon-right"></text>
+			</view>
+			<view class="PageCenter ConfirmOrders">
+				<view class="FontSize36 ConfirmOrdersTit">商品信息</view>
+				<view v-for="i in 3" class="FlexRow ConfirmOrder">
+					<image class="ConfirmOrderImg" mode="aspectFill" src="https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B" alt=""></image>
+					<view class="ConfirmOrderInfo FlexGrow">
+						<view class="FontSize30 ConfirmOrderTitle">麻辣小王子100g</view>
+						<view class="FontSize24 FontGray">规格:6包</view>
+						<view class="FontSize24 FontGray">单价:¥18.9</view>
+						<view class="FontSize24 FontGray">数量:x1</view>
+					</view>
+					<view class="FontSize30 ConfirmOrderPay">¥18.9</view>
+				</view>
+				<view class="ConfirmOrderRemark FlexRow FlexACenter">
+					<text class="FlexGrow">订单备注</text>
+					<text>暂无备注</text>
+					<text class="iconfont icon-right FontGray"></text>
+				</view>
+				<view class="ConfirmOrderAmounts FlexRow FlexACenter">
+					<text class="FontGray ConfirmOrderNum">共2件</text>
+					<text>小计:</text>
+					<text class="FontSize30 ConfirmOrderAmount">¥18.9</text>
+				</view>
+			</view>
+			<view class="PageCenter ConfirmPayments">
+				<text class="ConfirmPaymentTit">金额明细</text>
+				<view>
+					<text>商品金额</text>
+					<text>¥18.9</text>
+				</view>
+				<view>
+					<text>运费</text>
+					<text>¥18.9</text>
+				</view>
+				<view>
+					<text>优惠券</text>
+					<text>¥18.9</text>
+					<text class="iconfont icon-right"></text>
+				</view>
+			</view>
+		</scroll-view>
+		<view class="PageCenter ConfirmPayBtns">
+			<text>共2件</text>
+			<text>合计：</text>
+			<text class="FontRed">¥</text>
+			<text class="FontRed">18.9</text>
+			<text class="ConfirmPayBtn FontWhite FlexRow FlexCenter">结算</text>
+		</view>
+	</view>
 	<Tips ref="tips"></Tips>
 </template>
 <script setup>
@@ -10,24 +91,159 @@ import { ref, onMounted, computed } from 'vue'
 import { PublicStore } from '@/store/index'
 const store = PublicStore()
 let tips = ref(null)
-let shopList = ref([
-	{ check: false, title: '麻辣小王子100g', num: 1, subTitle: ['肉质饱满', '个大肉厚'], addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 3, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: true, title: '麻辣小王子100g', num: 1, addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 1, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g', num: 1, addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 1, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g', num: 10, addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 1, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 1, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 1, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 1, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 1, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-])
+let orderType = ref(1) //1自取 2外卖
+let selfPickUpType = ref(1) // 店内  2外带
+let reservePhone = ref('') // 预留手机
 onLoad((option) => {
 })
-
 </script>
 <style lang="less" scoped>
+.OrderTypes {
+	align-items: flex-end;
+	overflow: hidden;
+	border-radius: 16rpx 16rpx 0rpx 0rpx;
 
+	.OrderType {
+		width: 50%;
+		background-color: #e8e8e8;
+		padding: 15rpx 0rpx;
+		border-radius: 16rpx 16rpx 0rpx 0rpx;
+		height: 50rpx;
+
+		.iconfont {
+			font-size: 40rpx;
+			margin-right: 10rpx;
+		}
+	}
+
+	.OrderTypeActive {
+		background-color: #fff;
+		padding-top: 20rpx;
+
+		.FontSize30 {
+			font-weight: 500;
+		}
+
+	}
+}
+
+.OrderSelfPickUpPhone {
+	background-color: #fff;
+	border-bottom: 2rpx solid #e8e8e8;
+	padding: 10rpx 20rpx;
+
+	.ReservePhone {
+		height: 70rpx;
+		margin-left: 20rpx;
+	}
+}
+
+.OrderSelfPickUp {
+	background-color: #fff;
+	justify-content: space-between;
+	padding: 20rpx;
+	border-radius: 0rpx 0rpx 16rpx 16rpx;
+
+	.OrderSelfPickUpType {
+		width: 320rpx;
+		border: 2rpx solid #e8e8e8;
+		border-radius: 8rpx;
+		padding: 15rpx 0rpx;
+		position: relative;
+
+		.icon-diannei,
+		.icon-waidai {
+			margin-right: 10rpx;
+			font-size: 42rpx;
+		}
+
+		.icon-dagou {
+			display: none;
+		}
+	}
+
+	.OrderSelfPickUpTypeActive {
+		border: 2rpx solid #23a2ff;
+		color: #23a2ff;
+		overflow: hidden;
+
+		&::after {
+			content: ' ';
+			position: absolute;
+			width: 40rpx;
+			height: 40rpx;
+			border-radius: 8rpx;
+			background-color: #23a2ff;
+			right: -10rpx;
+			bottom: -10rpx;
+		}
+
+		.icon-dagou {
+			display: block;
+			position: absolute;
+			right: 2rpx;
+			bottom: 2rpx;
+			color: #fff;
+			font-size: 24rpx;
+			z-index: 2;
+		}
+	}
+}
+
+.ConfirmOrders {
+	background-color: #fff;
+	border-radius: 16rpx;
+	margin-top: 20rpx;
+
+	.ConfirmOrdersTit {
+		padding: 20rpx;
+	}
+
+	.ConfirmOrder {
+		padding: 0rpx 20rpx;
+		margin-bottom: 20rpx;
+
+		.ConfirmOrderImg {
+			width: 120rpx;
+			height: 120rpx;
+			margin-right: 20rpx;
+			border-radius: 4rpx;
+		}
+
+		.ConfirmOrderInfo {
+			border-bottom: 2rpx solid #e8e8e8;
+			padding-bottom: 20rpx;
+		}
+
+		.ConfirmOrderTitle {
+			margin-bottom: 10rpx;
+		}
+
+		.ConfirmOrderPay {
+			font-weight: 500;
+			padding-right: 20rpx;
+			border-bottom: 2rpx solid #e8e8e8;
+		}
+	}
+
+	.ConfirmOrderRemark {
+		padding: 20rpx;
+
+		.icon-right {
+			font-size: 24rpx;
+		}
+	}
+
+	.ConfirmOrderAmounts {
+		padding: 20rpx;
+		justify-content: flex-end;
+
+		.ConfirmOrderNum {
+			margin-right: 6rpx;
+		}
+		.ConfirmOrderAmount{
+			font-weight: 500;
+		}
+	}
+}
 </style>
