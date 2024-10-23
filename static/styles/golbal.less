@@ -1,3 +1,7 @@
+ .iconfont {
+     font-size: 32rpx;
+ }
+
  .FontBlack {
      color: #000;
  }
@@ -168,7 +172,28 @@
      position: absolute;
      top: 0rpx;
  }
+ .PageNull {
+    flex-grow: 1;
+    min-height: 500rpx;
 
- .iconfont {
-     font-size: 32rpx;
- }
+    .PageNullContent {
+        position: relative;
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+        justify-content: center;
+        margin-top: 140rpx;
+    }
+
+    .PageNullIcon {
+        font-size: 200rpx;
+        color: #9b9b9b;
+    }
+
+    .PageNullText {
+        position: absolute;
+        font-size: 28rpx;
+        color: #787878;
+        top: 300rpx;
+    }
+}

@@ -1,6 +1,6 @@
 <template>
 	<view class="ContainerPage ConfirmOrderPage">
-		<scroll-view scroll-y>
+		<scroll-view scroll-y class="ConfirmOrderList">
 			<view class="PageCenter OrderTypes FlexRow">
 				<view class="FlexRow FlexCenter OrderType" @click="orderType = 1" :class="orderType === 1 ? 'OrderTypeActive' : ''">
 					<text class="iconfont icon-ziqu"></text>
@@ -27,17 +27,17 @@
 					<text class="iconfont icon-dagou"></text>
 				</view>
 			</view>
-			<view v-else>
-				<text class="iconfont icon-dizhiguanli"></text>
-				<view>
-					<text>西溪龙湖天街3-608</text>
-					<text>刘备 11267560822</text>
+			<view v-else @click="openAddress" class="PageCenter ConfirmOrderAdd FlexRow">
+				<text class="iconfont icon-dizhiguanli FontSize40 FontGray"></text>
+				<view class="FlexColumn FlexGrow">
+					<text class="FontSize32 ConfirmOrderAddDetail">西溪龙湖天街3-608</text>
+					<text class="FontGray ConfirmOrderAddName">刘备 11267560822</text>
 				</view>
-				<text class="iconfont icon-right"></text>
+				<text class="iconfont icon-right FontSize24 FontGray"></text>
 			</view>
 			<view class="PageCenter ConfirmOrders">
 				<view class="FontSize36 ConfirmOrdersTit">商品信息</view>
-				<view v-for="i in 3" class="FlexRow ConfirmOrder">
+				<view v-for="i in 3" :key="i" class="FlexRow ConfirmOrder">
 					<image class="ConfirmOrderImg" mode="aspectFill" src="https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B" alt=""></image>
 					<view class="ConfirmOrderInfo FlexGrow">
 						<view class="FontSize30 ConfirmOrderTitle">麻辣小王子100g</view>
@@ -52,35 +52,28 @@
 					<text>暂无备注</text>
 					<text class="iconfont icon-right FontGray"></text>
 				</view>
+				<view class="ConfirmOrderRemark FlexRow FlexACenter">
+					<text class="FlexGrow">运费</text>
+					<text>¥18.9</text>
+				</view>
+				<view class="ConfirmOrderRemark FlexRow FlexACenter">
+					<text class="FlexGrow">优惠券</text>
+					<text>¥18.9</text>
+					<text class="iconfont icon-right FontGray"></text>
+				</view>
 				<view class="ConfirmOrderAmounts FlexRow FlexACenter">
 					<text class="FontGray ConfirmOrderNum">共2件</text>
 					<text>小计:</text>
 					<text class="FontSize30 ConfirmOrderAmount">¥18.9</text>
 				</view>
 			</view>
-			<view class="PageCenter ConfirmPayments">
-				<text class="ConfirmPaymentTit">金额明细</text>
-				<view>
-					<text>商品金额</text>
-					<text>¥18.9</text>
-				</view>
-				<view>
-					<text>运费</text>
-					<text>¥18.9</text>
-				</view>
-				<view>
-					<text>优惠券</text>
-					<text>¥18.9</text>
-					<text class="iconfont icon-right"></text>
-				</view>
-			</view>
 		</scroll-view>
-		<view class="PageCenter ConfirmPayBtns">
-			<text>共2件</text>
-			<text>合计：</text>
-			<text class="FontRed">¥</text>
-			<text class="FontRed">18.9</text>
-			<text class="ConfirmPayBtn FontWhite FlexRow FlexCenter">结算</text>
+		<view class="ConfirmPayBtns FlexRow FlexACenter">
+			<text class="FontSize28">共2件</text>
+			<text class="FontSize28">合计：</text>
+			<text class="FontRed FontSize28">¥</text>
+			<text class="FontRed ConfirmPaymount FontSize36 FontWeight">18.9</text>
+			<text class="ConfirmPayBtn FontSize30 FontWhite FlexRow FlexCenter">提交订单</text>
 		</view>
 	</view>
 	<Tips ref="tips"></Tips>
@@ -96,8 +89,16 @@ let selfPickUpType = ref(1) // 店内  2外带
 let reservePhone = ref('') // 预留手机
 onLoad((option) => {
 })
+const openAddress = () => {
+	uni.navigateTo({ url: '/pages/addressBook/index' })
+}
 </script>
 <style lang="less" scoped>
+.ConfirmOrderList {
+	flex-grow: 1;
+	height: 100rpx;
+}
+
 .OrderTypes {
 	align-items: flex-end;
 	overflow: hidden;
@@ -190,6 +191,30 @@ onLoad((option) => {
 	}
 }
 
+.ConfirmOrderAdd {
+	background-color: #fff;
+	border-radius: 0rpx 0rpx 16rpx 16rpx;
+	padding: 20rpx;
+
+	.icon-dizhiguanli {
+		margin-right: 20rpx;
+		font-weight: 500;
+		margin-top: 4rpx;
+	}
+
+	.icon-right {
+		margin-top: 10rpx;
+	}
+
+	.ConfirmOrderAddDetail {
+		font-weight: 500;
+	}
+
+	.ConfirmOrderAddName {
+		margin-top: 10rpx;
+	}
+}
+
 .ConfirmOrders {
 	background-color: #fff;
 	border-radius: 16rpx;
@@ -231,6 +256,7 @@ onLoad((option) => {
 
 		.icon-right {
 			font-size: 24rpx;
+			margin-left: 6rpx;
 		}
 	}
 
@@ -241,9 +267,30 @@ onLoad((option) => {
 		.ConfirmOrderNum {
 			margin-right: 6rpx;
 		}
-		.ConfirmOrderAmount{
+
+		.ConfirmOrderAmount {
 			font-weight: 500;
 		}
+	}
+}
+
+.ConfirmPayBtns {
+	background-color: #fff;
+	border-radius: 16rpx 16rpx 0rpx 0rpx;
+	margin-top: 20rpx;
+	padding: 20rpx;
+	box-sizing: border-box;
+	width: 100%;
+	justify-content: flex-end;
+
+	.ConfirmPayBtn {
+		margin-left: 20rpx;
+		color: #fff;
+		font-weight: 500;
+		border-radius: 32rpx;
+		padding: 15rpx 40rpx;
+		background-color: #23a2ff;
+
 	}
 }
 </style>

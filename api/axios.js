@@ -1,9 +1,6 @@
 import { mainLogin } from '@/util'
 import { PublicStore } from '@/store/index'
-let baseURL = 'https://zg.chuanmeidayin.com';
-if (process.env.NODE_ENV === 'production') {
-    baseURL = 'https://zg.chuanmeidayin.com';
-}
+let baseURL = '';
 let state401 = false;
 const api = async({ url, method = 'POST', data, header = {} }) => {
     let token = getApp().globalData.token;

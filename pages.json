@@ -1,5 +1,11 @@
 {
-    "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    "pages": [
+        {
+            "path": "pages/addressBook/editAddress",
+            "style": {
+                "navigationBarTitleText": "修改地址"
+            }
+        },
         {
             "path": "pages/index/confirmOrder",
             "style": {
@@ -22,6 +28,12 @@
             "path": "pages/index/index",
             "style": {
                 "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/addressBook/index",
+            "style": {
+                "navigationBarTitleText": "地址簿"
             }
         }
     ],

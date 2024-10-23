@@ -1,4 +1,3 @@
-import api from '@/api/index.js'
 import { PublicStore } from '@/store/index'
 let mainLogin = (v) => {
     uni.login({
@@ -20,25 +19,12 @@ let mainLogin = (v) => {
 }
 let login = (v = {}, code) => {
     let stores = PublicStore()
-    api.Home.login(code).then(res => {
-        uni.hideLoading();
-        if (res.code === 200) {
-            uni.showToast({ title: '登录成功', icon: 'success', mask: true });
-            getApp().globalData.token = res.data.access_token
-            stores.setUserMsg(res.data)
-            stores.setHasLogin(true)
-        } else {
-            getApp().globalData.token = ''
-            stores.setUserMsg({})
-            stores.setHasLogin(false)
-            uni.showToast({ title: res.message, icon: 'none' });
-        }
-    }).catch(err => {
-        uni.hideLoading();
-        uni.showToast({ title: '登入失败!', icon: 'none' });
-    });
+    uni.hideLoading();
+    uni.showToast({ title: '登录成功', icon: 'success', mask: true });
+    getApp().globalData.token = ''
+    stores.setUserMsg({})
+    stores.setHasLogin(true)
 }
-
 function compareVersion(v1, v2) {
     v1 = v1.split('.')
     v2 = v2.split('.')
@@ -75,4 +61,15 @@ function getQueryString(url, name) {
         return '';
     }
 }
-export { mainLogin, SideEffectList, compareVersion, getQueryString }
+function encodePhone(phone) {
+    if (regPhone(phone)) {
+        return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
+    } else {
+        return phone.replace(/(\d{3})\S+(\d{3})/, '$1****$2')
+    }
+}
+function regPhone(phone) { // 正则手机号匹配
+    let reg = /^((\+86)|(86)|(86-)|(86\s))?(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
+    return reg.test(phone)
+}
+export { mainLogin, SideEffectList, compareVersion, getQueryString, regPhone, encodePhone }

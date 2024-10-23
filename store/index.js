@@ -7,6 +7,7 @@ export const PublicStore = defineStore('Public', {
             hasLogin: false,
             cartCount: 0,
             cartAnimation: {},
+            selectAaddress: {},
         };
     },
     getters: {
@@ -22,6 +23,9 @@ export const PublicStore = defineStore('Public', {
         getCartAnimation: (state) => {
             return state.cartAnimation
         },
+        getSelectAaddress: (state) => {
+            return state.selectAaddress
+        },
     },
     // 也可以这样定义
     actions: {
@@ -36,6 +40,9 @@ export const PublicStore = defineStore('Public', {
         },
         setCartAnimation(state) {
             this.cartAnimation = state
+        },
+        setSelectAaddress(msg) {
+            this.selectAaddress = msg
         },
     },
 });

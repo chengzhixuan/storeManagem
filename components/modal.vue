@@ -21,8 +21,8 @@ let cancelBorder = ref('2rpx solid rgba(0,0,0,0.1);')
 let showCancel = ref(true)
 let confirmText = ref("")
 let confirmColor = ref("")
-let confirmBackColor = ref('linear-gradient(90deg, #fa5b3f 0%, #fc473a 100%)')
-let confirmBorder = ref('2rpx solid #FA5B3F')
+let confirmBackColor = ref('#23a2ff')
+let confirmBorder = ref('2rpx solid #23a2ff')
 let showConfirm = ref(true)
 let btnCount = ref(0)
 let params = ref({})
@@ -35,8 +35,8 @@ const show = (option, data) => {
     showConfirm.value = option.showConfirm !== undefined ? option.showConfirm : true;
     confirmText.value = option.confirmText ? option.confirmText : '确定';
     confirmColor.value = option.confirmColor ? option.confirmColor : '#fff';
-    confirmBackColor.value = option.confirmBackColor ? option.confirmBackColor : 'linear-gradient(90deg, #fa5b3f 0%, #fc473a 100%)';
-    confirmBorder.value = option.confirmBorder ? option.confirmBorder : '2rpx solid #FA5B3F';
+    confirmBackColor.value = option.confirmBackColor ? option.confirmBackColor : '#23a2ff';
+    confirmBorder.value = option.confirmBorder ? option.confirmBorder : '2rpx solid #23a2ff';
     showCancel.value = option.showCancel !== undefined ? option.showCancel : true;
     cancelText.value = option.cancelText ? option.cancelText : '取消';
     cancelColor.value = option.cancelColor ? option.cancelColor : '#666';

@@ -39,10 +39,6 @@ import { onLoad } from '@dcloudio/uni-app'
 import { ref, onMounted, watch } from 'vue'
 import RowShopItem from '@/components/rowShopItem'
 import AddCartAnimation from '@/components/addCartAnimation'
-import api from '@/api/index.js'
-import { PublicStore } from '@/store/index'
-const dayjs = require('../../static/js/day.js');
-const store = PublicStore()
 let tips = ref(null)
 let classList = ref([])
 let selectClass = ref(0)

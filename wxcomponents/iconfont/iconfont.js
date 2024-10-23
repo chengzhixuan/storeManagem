@@ -1,6 +1,6 @@
 Component({
   properties: {
-    // icon_duigouxiao | dizhiguanli | shouye1 | gouwuchefill | gouwuche1 | biaoqiankuozhan_shouye-151 | wode2 | biaoqianA01_wode-75 | fenlei | chanpinfenlei
+    // shanchu | dingweixiao | chacha | guanbi | weixin | bianji3 | kongyemian | dagou | right | left | waidai | waimai | diannei | ziqu | icon_duigouxiao | dizhiguanli | shouye1 | gouwuchefill | gouwuche1 | biaoqiankuozhan_shouye-151 | wode2 | biaoqianA01_wode-75 | fenlei | chanpinfenlei
     name: {
       type: String,
     },
