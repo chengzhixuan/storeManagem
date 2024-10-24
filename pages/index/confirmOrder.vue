@@ -98,7 +98,6 @@ const openAddress = () => {
 	flex-grow: 1;
 	height: 100rpx;
 }
-
 .OrderTypes {
 	align-items: flex-end;
 	overflow: hidden;
@@ -219,7 +218,6 @@ const openAddress = () => {
 	background-color: #fff;
 	border-radius: 16rpx;
 	margin-top: 20rpx;
-
 	.ConfirmOrdersTit {
 		padding: 20rpx;
 	}
@@ -277,11 +275,14 @@ const openAddress = () => {
 .ConfirmPayBtns {
 	background-color: #fff;
 	border-radius: 16rpx 16rpx 0rpx 0rpx;
-	margin-top: 20rpx;
 	padding: 20rpx;
+	margin-top: 20rpx;
 	box-sizing: border-box;
 	width: 100%;
 	justify-content: flex-end;
+	box-shadow: 0rpx -2rpx 8rpx 0rpx rgba(251, 251, 251, 0.5), 0rpx -4rpx 26rpx 0rpx rgba(229, 229, 229, 0.5);
+	padding-bottom: calc(constant(safe-area-inset-bottom) + 30rpx);
+	padding-bottom: calc(env(safe-area-inset-bottom) + 30rpx);
 
 	.ConfirmPayBtn {
 		margin-left: 20rpx;

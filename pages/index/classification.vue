@@ -64,12 +64,18 @@ onLoad((option) => {
 	for (let i = 0; i < 20; i++) {
 		classList.value.push({
 			title: '果蔬鲜花',
+			id: `${i}${i}${i}${i}`,
 			image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B',
 			childClass: [
 				{ title: '果蔬推荐' }, { title: '鲜花荐' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' },
 				{ title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' },
 				{ title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' }, { title: '果蔬鲜花' },
 			]
+		})
+	}
+	if (option.id) {
+		selectClass.value = classList.value.findIndex(x => {
+			return x.id === option.id
 		})
 	}
 })

@@ -66,7 +66,6 @@ const getList = async () => {
         addressName: '腾讯大楼',
         city: '广东省广州市番禺区',
         address: '1001',
-        sex: '1',
         tag: '学校'
     }, {
         seqid: 2,
@@ -76,7 +75,6 @@ const getList = async () => {
         addressName: '西子湖畔',
         city: '浙江省杭州市西湖区',
         address: '10-5-5',
-        sex: '2',
         tag: '公司'
     }]
 }
@@ -211,10 +209,10 @@ const modalSuc = (e) => {
         width: 100%;
         flex-shrink: 0;
         background: #fff;
-        box-shadow: 0rpx -2rpx 8rpx 0rpx rgba(251, 251, 251, 0.5), 0rpx -4rpx 26rpx 0rpx rgba(229, 229, 229, 0.5);
         z-index: 10;
         align-items: flex-start;
         padding-top: 30rpx;
+        box-shadow: 0rpx -2rpx 8rpx 0rpx rgba(251, 251, 251, 0.5), 0rpx -4rpx 26rpx 0rpx rgba(229, 229, 229, 0.5);
         padding-bottom: calc(constant(safe-area-inset-bottom) + 30rpx);
         padding-bottom: calc(env(safe-area-inset-bottom) + 30rpx);
 

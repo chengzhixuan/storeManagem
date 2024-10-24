@@ -22,6 +22,7 @@
 						</view>
 					</view>
 				</view>
+				<uni-load-more :status="loadStatus"></uni-load-more>
 			</scroll-view>
 		</view>
 		<view class="ShoppingCartFooter FlexRow FlexACenter">
@@ -30,17 +31,17 @@
 			<text class="FlexGrow"></text>
 			<view class="FontColumn FlexACenter ShoppingCartPayMsg">
 				<view class="FlexRow ShoppingCartPayment">
-					<text class="FontSize22">合计：</text>
-					<text class="FontRed FontWeight FontSize26">¥</text>
+					<text class="FontSize24">合计：</text>
+					<text class="FontRed FontWeight FontSize28">¥</text>
 					<text class="FontRed FontWeight FontSize30">50</text>
 					<text class="FontRed FontWeight FontSize24">.69</text>
 				</view>
-				<!-- <view class="FlexRow FlexACenter">
+				<view class="FlexRow FlexACenter">
 					<text class="FontSize20">已减:¥50.69</text>
 					<text class="ShoppingCartPre FontRed FontSize20">优惠明细</text>
-				</view> -->
+				</view>
 			</view>
-			<text class="ShoppingCartPayBtn FontWhite FlexRow FlexCenter">结算</text>
+			<text @click="goPay" class="ShoppingCartPayBtn FontSize30 FontWhite FlexRow FlexCenter">结算</text>
 		</view>
 	</Container>
 	<Tips ref="tips"></Tips>
@@ -54,6 +55,7 @@ let tips = ref(null)
 let pageNo = ref(1)
 let triggered = ref(true)
 let hasCheckAll = ref(false)
+let loadStatus = ref('more')
 let recommendList = ref([
 	{ check: false, title: '麻辣小王子100g', num: 1, subTitle: ['肉质饱满', '个大肉厚'], addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
 	{ check: false, title: '麻辣小王子100g麻辣小王子100g', num: 3, addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
@@ -97,9 +99,20 @@ const refresherrestore = () => { // 下拉刷新
 }
 const scrolltolower = () => { // 加载更多
 	setTimeout(() => {
-		pageNo.value++
-		recommendList.value = recommendList.value.concat(recommendList.value.slice(0, 10))
+		if (pageNo.value > 3) {
+			loadStatus.value = 'no-more'
+		} else {
+			pageNo.value++
+			loadStatus.value = 'loading'
+			recommendList.value = recommendList.value.concat(recommendList.value.slice(0, 10))
+			loadStatus.value = 'more'
+		}
 	}, 200)
+}
+const goPay = () => {
+	uni.navigateTo({
+		url: '/pages/index/confirmOrder'
+	})
 }
 </script>
 <style lang="less" scoped>
@@ -107,7 +120,6 @@ const scrolltolower = () => { // 加载更多
 	height: 100rpx;
 	box-sizing: border-box;
 	margin: 0rpx 20rpx;
-	background-color: #fff;
 	width: 710rpx;
 	border-radius: 16rpx;
 	overflow: hidden;
@@ -116,6 +128,7 @@ const scrolltolower = () => { // 加载更多
 		width: 100%;
 		padding: 15rpx 30rpx 15rpx 15rpx;
 		box-sizing: border-box;
+		background-color: #fff;
 
 		.icon-icon_duigouxiao {
 			margin: 55rpx 30rpx 0px 10px;
@@ -173,10 +186,11 @@ const scrolltolower = () => { // 加载更多
 }
 
 .ShoppingCartFooter {
-	height: 80rpx;
+	height: 90rpx;
 	width: 100%;
 	padding-left: 20rpx;
 	box-sizing: border-box;
+	background: #fff;
 
 	.icon-icon_duigouxiao {
 		font-size: 38rpx;

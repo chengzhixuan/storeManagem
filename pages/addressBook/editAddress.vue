@@ -10,9 +10,6 @@
                 </view>
             </view>
             <view class="AddressMsgItem">
-                <text class="AddressMsgItemName">性别</text>
-            </view>
-            <view class="AddressMsgItem">
                 <text class="AddressMsgItemName">手机号</text>
                 <input class="AddressMsgItemNameInput FontSize30" :always-embed="true" placeholder-style="color:#767676;" v-model="receiving.mobile" placeholder="手机号" />
             </view>
@@ -28,6 +25,11 @@
             </view>
             <view class="AddressMsgItem">
                 <text class="AddressMsgItemName">标签</text>
+                <view class="AddressMsgItemTags FlexRow FlexACenter">
+                    <text class="AddressMsgItemTag FontSize28 AddressMsgItemTagAc">家</text>
+                    <text class="AddressMsgItemTag FontSize28">公司</text>
+                    <text class="AddressMsgItemTag FontSize28">学校</text>
+                </view>
             </view>
             <view class="AddressMsgItem">
                 <text class="AddressMsgItemName">默认地址</text>
@@ -43,23 +45,17 @@
 </template>
 
 <script setup>
-import api from "@/api/index"
 import { regPhone } from '@/util'
 import { ref } from 'vue'
 import { onLoad } from "@dcloudio/uni-app";
 import { PublicStore } from '@/store'
 const store = PublicStore()
 let tips = ref(null)
-const type = ref('')
 const origin = ref('')
+let seqid = ref('')
 let receiving = ref({
-    isDefault: false,
-    name: '',
-    mobile: '',
-    addressName: '',
-    address: '',
-    sex: '1',
-    tag: '',
+    isDefault: false, name: '', mobile: '',
+    addressName: '', city: '', address: '', tag: '',
 })
 const platform = ref('')
 uni.getSystemInfo({
@@ -71,6 +67,7 @@ onLoad((option) => {
     if (option.adrInfo) {
         let adrInfo = JSON.parse(decodeURIComponent(option.adrInfo))
         receiving.value = adrInfo
+        seqid.value = adrInfo.seqid
         uni.setNavigationBarTitle({ title: "修改地址" })
     } else {
         uni.setNavigationBarTitle({ title: "新增地址" });
@@ -80,25 +77,24 @@ onLoad((option) => {
 const chooseAddress = () => {
     uni.chooseAddress({
         success(res) {
-            let d = {
+            receiving.value = {
+                isDefault: receiving.value.isDefault,
                 name: res.userName,
                 mobile: res.telNumber,
+                addressName: '',
                 city: `${res.provinceName}${res.cityName}${res.countyName}`,
                 address: res.detailInfo,
+                tag: receiving.value.tag,
             }
-            receiving.value = d
         }
     })
-}
-const selecAddress = (item) => {
-    store.setSelectAaddress(item)
-    uni.navigateBack({ delta: 1 });
 }
 const getLocation = () => {
     uni.chooseLocation({
         success: (res) => {
             receiving.value.addressName = res.name
             receiving.value.city = res.address
+            receiving.value.address = ''
         },
         fail: function (res) {
             uni.hideLoading()
@@ -107,52 +103,36 @@ const getLocation = () => {
 }
 const hightBtn = () => {
     let flag = false
-    if (receiving.value.name && receiving.value.mobile && receiving.value.address && receiving.value.city.length > 0) {
+    if (receiving.value.name && receiving.value.mobile && receiving.value.address && receiving.value.city) {
         flag = true
     }
     return flag
 }
 const empty = () => {
     receiving.value = {
-        isDefault: false,
-        name: '',
-        mobile: '',
-        addressName: '',
-        address: '',
-        sex: '1',
-        tag: '',
+        isDefault: false, name: '', mobile: '',
+        addressName: '', city: '', address: '', tag: '',
     }
 }
 const saveAddress = () => { //保存地址
     if (hightBtn()) {
         let mobile = ''
-        let phone = ''
         if (regPhone(receiving.value.mobile)) {
             mobile = receiving.value.mobile
         } else {
-            phone = receiving.value.mobile
+            tips.value.show({ message: `请输入正确手机号`, type: 'error' })
+            return
         }
-        api.Address.address(receiving.value.seqid, store.userMsg.nick, type.value, receiving.value.name, mobile, phone, receiving.value.city[0].text, receiving.value.city[1].text, receiving.value.city[2].text, '', receiving.value.address, isDefault.value ? 1 : 0).then(res => {
-            if (res.success) {
-                tips.value.show({ message: `保存地址成功`, type: 'success' })
-                if (origin.value === 'index') {
-                    selecAddress(res.data)
-                } else {
-                    uni.navigateBack({ delta: 1 });
-                }
-                empty()
-            } else {
-                tips.value.show({ message: `保存地址失败：${res.message} `, type: 'error' })
-            }
-        }).catch(err => {
-            tips.value.show({ message: `保存地址失败：${err} `, type: 'error' })
-        })
+        console.log(receiving.value)
+        tips.value.show({ message: seqid.value ? '修改地址成功' : `保存地址成功`, type: 'success' })
+        if (origin.value === 'index') {
+            store.setSelectAaddress(receiving.value)
+        }
+        empty()
+        uni.navigateBack({ delta: 1 });
     } else {
-        tips.value.show({ message: `请填写收件人信息`, type: 'error' })
+        tips.value.show({ message: `请填写地址信息`, type: 'error' })
     }
-}
-const goPage = (url) => {
-    uni.navigateTo({ url: url })
 }
 </script>
 
@@ -205,6 +185,18 @@ const goPage = (url) => {
 
         .icon-dingweixiao {
             font-size: 40rpx;
+            color: #23a2ff;
+        }
+
+        .AddressMsgItemTag {
+            padding: 4rpx 20rpx;
+            border: 2rpx solid #d3d3d3;
+            border-radius: 4rpx;
+            margin-right: 16rpx;
+        }
+
+        .AddressMsgItemTagAc {
+            border-color: #23a2ff;
             color: #23a2ff;
         }
     }
