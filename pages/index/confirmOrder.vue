@@ -67,6 +67,7 @@
 					<text class="FontSize30 ConfirmOrderAmount">¥18.9</text>
 				</view>
 			</view>
+			<view style="height:20rpx"></view>
 		</scroll-view>
 		<view class="ConfirmPayBtns FlexRow FlexACenter">
 			<text class="FontSize28">共2件</text>
@@ -213,7 +214,6 @@ const openAddress = () => {
 		margin-top: 10rpx;
 	}
 }
-
 .ConfirmOrders {
 	background-color: #fff;
 	border-radius: 16rpx;
@@ -276,7 +276,6 @@ const openAddress = () => {
 	background-color: #fff;
 	border-radius: 16rpx 16rpx 0rpx 0rpx;
 	padding: 20rpx;
-	margin-top: 20rpx;
 	box-sizing: border-box;
 	width: 100%;
 	justify-content: flex-end;
