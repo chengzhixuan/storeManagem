@@ -10,7 +10,7 @@
                 <text class="RecommendItemUnit FontSize26 FontGray">/{{ props.item.unit }}</text>
             </view>
             <view @click.stop="addShoppingCart" class="RecommendItemIcon FlexRow FlexCenter">
-                <iconfont class="FlexRow FlexCenter" :size="28" :color="'#fff'" name="gouwuche1" />
+                <text class="iconfont icon-gouwuche1 FlexRow FlexCenter FontSize28 FontWhite"></text>
                 <text class="RecommendItemCount">x2</text>
             </view>
         </view>

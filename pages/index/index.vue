@@ -1,11 +1,10 @@
 <template>
 	<Container type="Home" class="ContainerPage">
 		<view class="IndexHeader FlexShrink FlexRow" :style="headerSyle">
-			<iconfont class="IndexHeaderLogo" size="40" name="dizhiguanli" />
+			<text @click="openAddress" class="iconfont icon-dizhiguanli FontSize40 FontGray IndexHeaderLogo"></text>
 			<text class="IndexHeaderLeft">太平洋海底比奇堡</text>
 			<view class="TopBgcImg"></view>
 		</view>
-
 		<view class="TopSearch FlexRow FlexJCenter">
 			<view class="SearchInput FlexRow FlexACenter">
 				<text class="FlexGrow FontGray">榴莲千层</text>
@@ -96,6 +95,9 @@ const goClass = (id) => {
 		url: `/pages/index/classification?id=${id}`
 	})
 }
+const openAddress = () => {
+	uni.navigateTo({ url: '/pages/addressBook/index' })
+}
 </script>
 <style lang="less" scoped>
 .IndexHeader {
@@ -118,7 +120,7 @@ const goClass = (id) => {
 	}
 
 	.IndexHeaderLeft {
-		font-size: 28rpx;
+		font-size: 30rpx;
 	}
 }
 

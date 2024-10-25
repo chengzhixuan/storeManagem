@@ -4,12 +4,15 @@
             <scroll-view class="AdrScroll" scroll-y="true">
                 <view class="AdrItem" @click="selecAddress(item)" v-for="(item, index) in addressList" :key="item.seqid">
                     <view class="AdrData">
+                        <view class="AddressInfoBox FlexRow FlexACenter">
+                            <text v-if="item.tag" class="AddressInfoTag">{{ item.tag }}</text>
+                            <text class="AddressInfo FontSize32">{{ item.addressName }}{{ item.address }}</text>
+                        </view>
                         <view class="UserInfo FlexRow FlexCenter">
-                            <text class="FontSize32">{{ item.name }}</text>
+                            <text class="FontSize24 Font6d">{{ item.name }}</text>
                             <text class="Phone FontSize24 Font6d" v-if="item.mobile">{{ encodePhone(item.mobile) }}</text>
                             <text class="Phone FontSize24 Font6d" v-else>{{ encodePhone(item.phone) }}</text>
                         </view>
-                        <view class="AddressInfo FontSize24 Font6d">{{ item.addressName }}{{ item.address }}</view>
                     </view>
                     <view class="AdrItemOperBox FlexRow FlexCenter">
                         <view class="OperItem FlexRow FlexCenter" @click.stop="setDef(item, index)">
@@ -144,19 +147,18 @@ const modalSuc = (e) => {
                 padding-bottom: 20rpx;
                 border-bottom: 2rpx solid rgba(0, 0, 0, 0.03);
 
-                .UserInfo {
-                    width: 100%;
-                    justify-content: flex-start;
-
-                    .Phone {
-                        margin-left: 8rpx;
-                    }
+                .AddressInfoTag {
+                    flex-shrink: 0;
+                    padding: 2rpx 4rpx;
+                    color: #fff;
+                    background-color: #23a2ff;
+                    border-radius: 4rpx;
+                    margin-right: 16rpx;
                 }
 
                 .AddressInfo {
                     box-sizing: border-box;
                     width: 100%;
-                    margin-top: 12rpx;
                     text-overflow: -o-ellipsis-lastline;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -164,6 +166,16 @@ const modalSuc = (e) => {
                     -webkit-line-clamp: 2;
                     line-clamp: 2;
                     -webkit-box-orient: vertical;
+                }
+
+                .UserInfo {
+                    width: 100%;
+                    justify-content: flex-start;
+                    margin-top: 12rpx;
+
+                    .Phone {
+                        margin-left: 20rpx;
+                    }
                 }
             }
 

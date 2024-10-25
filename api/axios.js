@@ -2,7 +2,7 @@ import { mainLogin } from '@/util'
 import { PublicStore } from '@/store/index'
 let baseURL = '';
 let state401 = false;
-const api = async({ url, method = 'POST', data, header = {} }) => {
+const api = async ({ url, method = 'POST', data, header = {} }) => {
     let token = getApp().globalData.token;
     header['token'] = token;
     return new Promise((resolve, reject) => {
@@ -35,4 +35,5 @@ const api = async({ url, method = 'POST', data, header = {} }) => {
         });
     })
 }
+export { baseURL }
 export default api

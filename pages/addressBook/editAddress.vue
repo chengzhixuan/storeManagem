@@ -15,7 +15,7 @@
             </view>
             <view class="AddressMsgItem" @click.stop="getLocation">
                 <text class="AddressMsgItemName">地址</text>
-                <text style="font-weight: 500;" class="FlexGrow" v-if="receiving.addressName ? receiving.addressName : receiving.address">{{ receiving.addressName ? receiving.addressName : receiving.address }}</text>
+                <text style="font-weight: 500;" class="FlexGrow FontSize30" v-if="receiving.addressName ? receiving.addressName : receiving.address">{{ receiving.addressName ? receiving.addressName : receiving.address }}</text>
                 <text style="color:#767676;font-weight: 500;" class="FlexGrow FontSize30" v-else>请选择地址</text>
                 <text class="icon-dingweixiao iconfont FontGray"></text>
             </view>
@@ -222,7 +222,7 @@ const saveAddress = () => { //保存地址
 
     .RedBtn {
         background: #23a2ff;
-        box-shadow: 0rpx 6rpx 18rpx 0rpx rgba(255, 38, 29, 0.2);
+        box-shadow: 0rpx 6rpx 18rpx 0rpx rgba(134, 194, 250, 0.2);
     }
 
     .GrayBtn {
