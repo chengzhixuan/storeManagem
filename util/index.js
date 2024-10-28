@@ -22,7 +22,7 @@ let login = (v = {}, code) => {
     uni.hideLoading();
     uni.showToast({ title: '登录成功', icon: 'success', mask: true });
     getApp().globalData.token = ''
-    stores.setUserMsg({})
+    stores.setUserMsg({ id: 1, name: '张三', avatar: 'https://img.alicdn.com/imgextra/i1/O1CN01EI93PS1xWbnJ87dXX_!!6000000006451-2-tps-150-150.png' })
     stores.setHasLogin(true)
 }
 function compareVersion(v1, v2) {

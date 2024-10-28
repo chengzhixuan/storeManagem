@@ -3,10 +3,13 @@
         {
             "path": "pages/mine/mine",
             "style": {
-                "navigationBarTitleText": "我的",
-                "navigationBarTextStyle": "black",
-                "navigationBarBackgroundColor": "#fff",
-                "enablePullDownRefresh": false
+                "navigationStyle": "custom"
+            }
+        },
+        {
+            "path": "pages/mine/setUserInfo",
+            "style": {
+                "navigationBarTitleText": "修改信息"
             }
         },
         {

@@ -14,7 +14,7 @@
             <text :class="type === 'shoppingCart' ? 'FontBlue' : ''" class="FooterTitle">购物车</text>
             <view class="FooterNum" v-if="store.cartCount > 0">{{ store.cartCount }}</view>
         </view>
-        <view @click="goPage('/pages/index/mine')" class="FooterMenu">
+        <view @click="goPage('/pages/mine/mine')" class="FooterMenu">
             <i class="iconfont" :class="type === 'mine' ? 'icon-biaoqianA01_wode-75 FontBlue' : 'icon-wode2'"></i>
             <text :class="type === 'mine' ? 'FontBlue' : ''" class="FooterTitle">我</text>
         </view>
