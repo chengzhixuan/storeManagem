@@ -80,7 +80,7 @@ headerSyle.value = {
     paddingTop: menu.top + 40 + 'px',
 }
 const goPage = (url) => {
-    uni.reLaunch({ url: url })
+    uni.navigateTo({ url: url })
 }
 </script>
 

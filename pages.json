@@ -1,6 +1,12 @@
 {
     "pages": [
         {
+            "path": "pages/index/index",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
             "path": "pages/mine/mine",
             "style": {
                 "navigationStyle": "custom"
@@ -10,12 +16,6 @@
             "path": "pages/mine/setUserInfo",
             "style": {
                 "navigationBarTitleText": "修改信息"
-            }
-        },
-        {
-            "path": "pages/index/index",
-            "style": {
-                "navigationStyle": "custom"
             }
         },
         {
