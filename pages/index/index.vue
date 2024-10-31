@@ -50,35 +50,29 @@ import AddCartAnimation from '@/components/addCartAnimation'
 let headerSyle = ref({})
 let tips = ref(null)
 let classList = ref([
-	{ title: '果蔬鲜花', id: '1111', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '2222', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '3333', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '4444', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '5555', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '6666', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '7777', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '8888', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '9999', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '果蔬鲜花', id: '1010', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '果蔬鲜花', id: '1111', image: 'https://img-1.pddpic.com/goods/2019-12-10/98ccf266fab125c2dfdb0288989de156.jpeg?imageView2/2/w/112/q/80/format/webp' },
+	{ title: '肉禽蛋类', id: '2222', image: 'https://img-1.pddpic.com/goods/images/2019-08-02/09dda06eca2f05ca0f32a0ceecdc2d30.jpeg?imageView2/2/w/112/q/80/format/webp' },
+	{ title: '海鲜水产', id: '3333', image: 'https://img-1.pddpic.com/goods/images/2019-08-02/23daf5e5542e2fe1e389b7c5d5e55f69.jpeg?imageView2/2/w/112/q/80/format/webp' },
+	{ title: '豆类制品', id: '4444', image: 'https://img-1.pddpic.com/goods/images/2019-08-02/68ff9c12be49550de68a1a485eeb3dbd.jpeg?imageView2/2/w/112/q/80/format/webp' },
+	{ title: '酒水饮料', id: '5555', image: 'https://img-1.pddpic.com/goods/images/2019-08-14/9621bf08433d6649c1426cd3ce368358.jpeg?imageView2/2/w/112/q/80/format/webp' },
+	{ title: '美妆洗护', id: '6666', image: 'https://img-1.pddpic.com/goods/images/2019-08-19/87ad2d69b81c00f40228a9b2f75d9531.png?imageView2/2/w/112/q/80/format/webp' },
+	{ title: '厨卫百货', id: '7777', image: 'https://img-1.pddpic.com/goods/images/2019-08-14/7eeb5a99b0916be6ad48911e52256d84.jpeg?imageView2/2/w/112/q/80/format/webp' },
+	{ title: '餐饮熟食', id: '8888', image: 'https://img-1.pddpic.com/goods/2019-12-09/294fe3a8bf3df08bbb39418a6a209d3f.png?imageView2/2/w/112/q/80/format/webp' },
+	{ title: '乳品烘焙', id: '9999', image: 'https://img.pddpic.com/goods/images/2019-01-29/a224bcb565d79072dbab3bb0418efdea.png?imageView2/2/w/1300/q/80/format/webp' },
+	{ title: '休闲零食', id: '1010', image: 'https://img0.baidu.com/it/u=2665548877,4070133332&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500' },
 ])
 let keyRecommend = ref([
-	{ title: '时令上新', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }, { price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }] },
-	{ title: '回购榜单', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }] },
-	{ title: '限时疯抢', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' }], }
+	{ title: '时令上新', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://img1.baidu.com/it/u=1886169339,2787405236&fm=253&fmt=auto&app=138&f=JPEG?w=300&h=300' }, { price: 18.9, image: 'https://img0.baidu.com/it/u=657564052,1211965729&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500' }] },
+	{ title: '回购榜单', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://img1.baidu.com/it/u=987640976,3660540952&fm=253&fmt=auto&app=138&f=JPEG?w=747&h=500' }] },
+	{ title: '限时疯抢', keyWord: '0.01元试吃', list: [{ price: 18.9, image: 'https://img1.baidu.com/it/u=3748783928,501329490&fm=253&fmt=auto&app=138&f=JPEG?w=450&h=300' }], }
 ]);
 let recommendList = ref([
-	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g', addCart: true, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
-	{ title: '麻辣小王子100g麻辣小王子100g', addCart: false, price: 18.9, unit: '包', image: 'https://t12.baidu.com/it/u=4256646099,219088797&fm=30&app=106&f=JPEG?w=640&h=442&s=9BB59EAE400634E3502F402D0300F04B' },
+	{ title: '泰国金枕榴莲10斤新鲜水果', addCart: true, price: 18.9, unit: '包', image: 'https://img.alicdn.com/imgextra/i2/2206506346948/O1CN01Z6LUmP21CEo5MJ24A_!!2206506346948-0-alimamacc.jpg_580x580q90.jpg_.webp' },
+	{ title: '钦蜜9号黄金百香果', addCart: false, price: 18.9, unit: '包', image: 'https://gw.alicdn.com/imgextra/O1CN01SBMnFf2LY21uK7CAz_!!3937219703-0-C2M.jpg_580x580q90.jpg_.webp' },
+	{ title: '涌泉蜜桔', addCart: true, price: 18.9, unit: '包', image: 'https://g-search1.alicdn.com/img/bao/uploaded/i4/i3/2926862984/O1CN01s0eMx91XuiqFkddqJ_!!0-item_pic.jpg_580x580q90.jpg_.webp' },
+	{ title: '猕猴桃5绿心弥', addCart: false, price: 18.9, unit: '包', image: 'http://img.alicdn.com/img/i1/4080606508/O1CN01BJhq0J1xwiakVZzT2_!!4080606508-0-alimamacc.jpg_580x580q90.jpg_.webp' },
+	{ title: '奶油富士苹果', addCart: true, price: 18.9, unit: '包', image: 'http://img.alicdn.com/img/i4/6930157936/O1CN01j6jrp928UkAhHFdnU_!!0-saturn_solar.jpg_580x580q90.jpg_.webp' },
+	{ title: '奥利奥宇宙探索礼盒限定系列星空渐变色夹心饼干赠定制流体画周边', addCart: false, price: 18.9, unit: '包', image: 'http://img.alicdn.com/img/i3/787936378/O1CN012YgZqz1wzB706Uj3z_!!787936378-0-alimamacc.jpg_580x580q90.jpg_.webp' },
 ])
 let menu = uni.getMenuButtonBoundingClientRect()
 // headerSyle.value = {

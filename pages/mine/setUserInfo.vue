@@ -74,7 +74,6 @@ const sub = () => {
     }
     tips.value.show({ message: "保存成功" })
     store.setUserMsg(userMsg.value)
-    uni.navigateBack({ delta: 1 })
 
 }
 const nickChange = (e) => {
