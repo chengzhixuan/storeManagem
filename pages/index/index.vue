@@ -1,12 +1,12 @@
 <template>
 	<Container type="Home" class="ContainerPage">
 		<view class="IndexHeader FlexShrink FlexRow" :style="headerSyle">
-			<text @click="openAddress" class="iconfont icon-dizhiguanli FontSize40 FontGray IndexHeaderLogo"></text>
-			<text class="IndexHeaderLeft">太平洋海底比奇堡</text>
+			<text @click="openPage('/pages/addressBook/index')" class="iconfont icon-dizhiguanli FontSize40 FontGray IndexHeaderLogo"></text>
+			<text @click="openPage('/pages/addressBook/index')" class="IndexHeaderLeft">太平洋海底比奇堡</text>
 			<view class="TopBgcImg"></view>
 		</view>
 		<view class="TopSearch FlexRow FlexJCenter">
-			<view class="SearchInput FlexRow FlexACenter">
+			<view @click="openPage('/pages/index/search')" class="SearchInput FlexRow FlexACenter">
 				<text class="FlexGrow FontGray">榴莲千层</text>
 				<text class="SearchInputBtn FlexRow FlexACenter FontWhite">搜索</text>
 			</view>
@@ -75,9 +75,6 @@ let recommendList = ref([
 	{ title: '奥利奥宇宙探索礼盒限定系列星空渐变色夹心饼干赠定制流体画周边', addCart: false, price: 18.9, unit: '包', image: 'http://img.alicdn.com/img/i3/787936378/O1CN012YgZqz1wzB706Uj3z_!!787936378-0-alimamacc.jpg_580x580q90.jpg_.webp' },
 ])
 let menu = uni.getMenuButtonBoundingClientRect()
-// headerSyle.value = {
-// 	paddingTop: menu.top + menu.height + 5 + 'px',
-// }
 headerSyle.value = {
 	height: menu.height + 'px',
 	paddingTop: menu.top + 'px',
@@ -89,8 +86,8 @@ const goClass = (id) => {
 		url: `/pages/index/classification?id=${id}`
 	})
 }
-const openAddress = () => {
-	uni.navigateTo({ url: '/pages/addressBook/index' })
+const openPage = (url) => {
+	uni.navigateTo({ url: url })
 }
 </script>
 <style lang="less" scoped>
