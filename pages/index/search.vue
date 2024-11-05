@@ -2,14 +2,43 @@
 	<view class="ContainerPage">
 		<view class="TopSearch FlexRow FlexJCenter">
 			<view class="SearchInput FlexRow FlexACenter">
-				<input @focus="searchFocus" ref="searchInputRef" focus v-model="search" class="FlexGrow FontGray SearchInputValue" confirm-type="search" placeholder="榴莲千层" />
+				<input @focus="searchFocus" ref="searchInputRef" focus v-model="search" placeholder-class="FontGray" class="FlexGrow SearchInputValue" confirm-type="search" placeholder="榴莲千层" />
 				<text v-if="hasSearchFocus" class="SearchInputBtn FlexRow FlexACenter FontWhite">搜索</text>
+				<text @click="search = ''" v-if="search" class="FontGray icon-chacha iconfont"></text>
 			</view>
 		</view>
-		<view>
-			
+		<view v-if="hasSearchFocus && search" class="FlexGrow FlexColumn SearchRecomments">
+			<view v-for="item in recommentSearch" class="FlexRow FlexACenter SearchRecomment">
+				<text v-for="(x, index) in formatSearch(item)" :class="index === 1 ? '' : 'FontBlue'">{{ x }}</text>
+			</view>
 		</view>
-		<view class="FlexGrow SearchResultList">
+		<view class="FlexGrow SearchHistorys" v-else-if="hasSearchFocus">
+			<view class="SearchHistoryTit FlexRow FlexACenter">
+				<text class="FontSize32 FontDefault">搜索历史</text>
+				<text class="iconfont icon-shanchu FontGray"></text>
+			</view>
+			<view class="SearchHistory FlexRow">
+				<view class="SearchHistoryItem">橘子</view>
+				<view class="SearchHistoryItem">粽子热卖</view>
+				<view class="SearchHistoryItem">小樱桃</view>
+				<view class="SearchHistoryItem">粽子热卖</view>
+				<view class="SearchHistoryItem">水果店</view>
+				<view class="SearchHistoryItem">牛肉</view>
+			</view>
+			<view class="SearchHistoryTit FlexRow FlexACenter">
+				<text class="FontSize32 FontDefault">搜索发现</text>
+				<text class="iconfont icon-shuaxin FontGray"></text>
+			</view>
+			<view class="SearchHistory FlexRow">
+				<view class="SearchHistoryItem">橘子</view>
+				<view class="SearchHistoryItem">粽子热卖</view>
+				<view class="SearchHistoryItem">小樱桃</view>
+				<view class="SearchHistoryItem">粽子热卖</view>
+				<view class="SearchHistoryItem">水果店</view>
+				<view class="SearchHistoryItem">牛肉</view>
+			</view>
+		</view>
+		<view v-else class="FlexGrow SearchResultList">
 			<scroll-view scroll-y class="SearchResult">
 				<view class="SearchSort FlexRow">
 					<view @click="salesChange()" class="SearchSortItem FlexColumn FlexCenter" :class="'SearchSortSales' + salesSort">
@@ -40,11 +69,12 @@ import { ref, onMounted, watch } from 'vue'
 import ColumnShopItem from '@/components/columnShopItem'
 import AddCartAnimation from '@/components/addCartAnimation'
 let tips = ref(null)
-let search = ref('')
+let search = ref('有')
 let priceSort = ref(0)
 let salesSort = ref(0)
 let hasSearchFocus = ref(false)
 let searchInputRef = ref(null)
+let recommentSearch = ref(['有机羊肉', '有机素菜', '有机大米', '有机水果'])
 let recommendList = ref([
 	{ title: '泰国金枕榴莲10斤新鲜水果', addCart: true, price: 18.9, unit: '包', image: 'https://img.alicdn.com/imgextra/i2/2206506346948/O1CN01Z6LUmP21CEo5MJ24A_!!2206506346948-0-alimamacc.jpg_580x580q90.jpg_.webp' },
 	{ title: '钦蜜9号黄金百香果', addCart: false, price: 18.9, unit: '包', image: 'https://gw.alicdn.com/imgextra/O1CN01SBMnFf2LY21uK7CAz_!!3937219703-0-C2M.jpg_580x580q90.jpg_.webp' },
@@ -56,9 +86,17 @@ let recommendList = ref([
 onLoad((option) => {
 })
 const searchFocus = () => {
-	console.log(333);
-
 	hasSearchFocus.value = true
+}
+const formatSearch = (item) => {
+	let list = []
+	item.split(search.value).map((item, index) => {
+		list.push(item)
+		if (index === 0) {
+			list.push(search.value)
+		}
+	})
+	return list
 }
 const salesChange = () => {
 	if (salesSort.value === 2) {
@@ -88,10 +126,9 @@ const openPage = (url) => {
 		background-color: #fff;
 		width: 710rpx;
 		box-sizing: border-box;
-		padding-left: 20rpx;
+		padding-left: 30rpx;
 		border-radius: 30rpx;
-
-		.SearchInputValue {}
+		position: relative;
 
 		.SearchInputBtn {
 			border-radius: 30rpx;
@@ -100,6 +137,53 @@ const openPage = (url) => {
 			padding: 0rpx 20rpx;
 			background-color: #23a2ff;
 		}
+
+		.icon-chacha {
+			position: absolute;
+			top: 16rpx;
+			right: 100rpx;
+			z-index: 10;
+		}
+	}
+}
+
+.SearchRecomments {
+	width: 100%;
+	background-color: #fff;
+
+	.SearchRecomment {
+		padding: 10rpx 0rpx;
+		margin: 0rpx 30rpx;
+		letter-spacing: 4rpx;
+		border-bottom: 2rpx solid rgba(225, 224, 224, 0.5);
+	}
+}
+
+.SearchHistorys {
+	width: 100%;
+	background-color: #fff;
+	border-radius: 16rpx 16rpx 0rpx 0rpx;
+	padding: 0rpx 20rpx 20rpx 20rpx;
+	box-sizing: border-box;
+
+	.SearchHistoryTit {
+		justify-content: space-between;
+		margin-bottom: 30rpx;
+		margin-top: 30rpx;
+	}
+
+	.SearchHistory {
+		flex-flow: wrap;
+	}
+
+	.SearchHistoryItem {
+		padding: 10rpx 20rpx;
+		font-size: 28rpx;
+		margin-right: 20rpx;
+		margin-bottom: 20rpx;
+		border-radius: 30rpx;
+		background-color: #f6f6f6;
+		color: #666;
 	}
 }
 
