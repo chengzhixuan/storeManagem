@@ -73,7 +73,7 @@ const goPage = (url) => {
             position: absolute;
             background-color: #fe432e;
             color: #fff;
-            border-radius: 50%;
+            border-radius: 20rpx;
             padding: 0rpx 8rpx;
             font-size: 22rpx;
             top: 0rpx;

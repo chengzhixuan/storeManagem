@@ -2,40 +2,34 @@
 	<view class="ContainerPage">
 		<view class="TopSearch FlexRow FlexJCenter">
 			<view class="SearchInput FlexRow FlexACenter">
-				<input @focus="searchFocus" ref="searchInputRef" focus v-model="search" placeholder-class="FontGray" class="FlexGrow SearchInputValue" confirm-type="search" placeholder="榴莲千层" />
-				<text v-if="hasSearchFocus" class="SearchInputBtn FlexRow FlexACenter FontWhite">搜索</text>
-				<text @click="search = ''" v-if="search" class="FontGray icon-chacha iconfont"></text>
+				<input @focus="searchFocus" v-model="search" placeholder-class="FontGray" class="FlexGrow SearchInputValue" @confirm="searchConfirm" confirm-type="search" placeholder="榴莲千层" />
+				<text @click="searchClear" v-if="search && hasSearchFocus" class="FontGray icon-chacha iconfont"></text>
+			</view>
+			<text @click="searchConfirm" v-if="hasSearchFocus" class="SearchInputBtn FlexRow FlexACenter FontWhite">搜索</text>
+			<view v-if="!hasSearchFocus" class="FlexRow FlexCenter SearchInputCount" @click="goPage('/pages/index/shoppingCart')">
+				<text :style="animation" class="iconfont icon-gouwuche1 FontSize34"></text>
+				<view class="SearchInputNum" v-if="store.cartCount > 0">{{ store.cartCount }}</view>
 			</view>
 		</view>
 		<view v-if="hasSearchFocus && search" class="FlexGrow FlexColumn SearchRecomments">
-			<view v-for="item in recommentSearch" class="FlexRow FlexACenter SearchRecomment">
+			<view @click="recommentClick(item)" v-for="item in recommentSearch" class="FlexRow FlexACenter SearchRecomment">
 				<text v-for="(x, index) in formatSearch(item)" :class="index === 1 ? '' : 'FontBlue'">{{ x }}</text>
 			</view>
 		</view>
 		<view class="FlexGrow SearchHistorys" v-else-if="hasSearchFocus">
 			<view class="SearchHistoryTit FlexRow FlexACenter">
 				<text class="FontSize32 FontDefault">搜索历史</text>
-				<text class="iconfont icon-shanchu FontGray"></text>
+				<text @click="clearSearchHistory" class="iconfont icon-shanchu FontGray"></text>
 			</view>
 			<view class="SearchHistory FlexRow">
-				<view class="SearchHistoryItem">橘子</view>
-				<view class="SearchHistoryItem">粽子热卖</view>
-				<view class="SearchHistoryItem">小樱桃</view>
-				<view class="SearchHistoryItem">粽子热卖</view>
-				<view class="SearchHistoryItem">水果店</view>
-				<view class="SearchHistoryItem">牛肉</view>
+				<text @click="recommentClick(item)" class="SearchHistoryItem" v-for="item in searchHistory" :key="item">{{ item }}</text>
 			</view>
 			<view class="SearchHistoryTit FlexRow FlexACenter">
 				<text class="FontSize32 FontDefault">搜索发现</text>
-				<text class="iconfont icon-shuaxin FontGray"></text>
+				<text @click="searchRecommentRefresh" class="iconfont icon-shuaxin FontGray"></text>
 			</view>
 			<view class="SearchHistory FlexRow">
-				<view class="SearchHistoryItem">橘子</view>
-				<view class="SearchHistoryItem">粽子热卖</view>
-				<view class="SearchHistoryItem">小樱桃</view>
-				<view class="SearchHistoryItem">粽子热卖</view>
-				<view class="SearchHistoryItem">水果店</view>
-				<view class="SearchHistoryItem">牛肉</view>
+				<text @click="recommentClick(item)" class="SearchHistoryItem" v-for="item in searchRecomment" :key="item">{{ item }}</text>
 			</view>
 		</view>
 		<view v-else class="FlexGrow SearchResultList">
@@ -61,20 +55,23 @@
 		</view>
 	</view>
 	<Tips ref="tips"></Tips>
-	<AddCartAnimation class="AddCartAnimations"></AddCartAnimation>
+	<AddCartAnimation type="topRight" class="AddCartAnimations"></AddCartAnimation>
 </template>
 <script setup>
-import { onLoad } from '@dcloudio/uni-app'
-import { ref, onMounted, watch } from 'vue'
+import { ref, watch } from 'vue'
 import ColumnShopItem from '@/components/columnShopItem'
 import AddCartAnimation from '@/components/addCartAnimation'
+import { PublicStore } from '@/store/index'
+const store = PublicStore()
 let tips = ref(null)
-let search = ref('有')
+let search = ref('')
 let priceSort = ref(0)
 let salesSort = ref(0)
-let hasSearchFocus = ref(false)
-let searchInputRef = ref(null)
+let hasSearchFocus = ref(true)
+let animation = ref('')
 let recommentSearch = ref(['有机羊肉', '有机素菜', '有机大米', '有机水果'])
+let searchHistory = ref(['有机羊肉', '有机素菜', '有机大米', '有机水果', '橘子', '粽子热卖', '小樱桃', '粽子热卖', '水果店', '牛肉'])
+let searchRecomment = ref(['有机羊肉', '有机素菜', '有机大米', '有机水果', '橘子', '粽子热卖', '小樱桃', '粽子热卖', '水果店', '牛肉'])
 let recommendList = ref([
 	{ title: '泰国金枕榴莲10斤新鲜水果', addCart: true, price: 18.9, unit: '包', image: 'https://img.alicdn.com/imgextra/i2/2206506346948/O1CN01Z6LUmP21CEo5MJ24A_!!2206506346948-0-alimamacc.jpg_580x580q90.jpg_.webp' },
 	{ title: '钦蜜9号黄金百香果', addCart: false, price: 18.9, unit: '包', image: 'https://gw.alicdn.com/imgextra/O1CN01SBMnFf2LY21uK7CAz_!!3937219703-0-C2M.jpg_580x580q90.jpg_.webp' },
@@ -83,12 +80,25 @@ let recommendList = ref([
 	{ title: '奶油富士苹果', addCart: true, price: 18.9, unit: '包', image: 'http://img.alicdn.com/img/i4/6930157936/O1CN01j6jrp928UkAhHFdnU_!!0-saturn_solar.jpg_580x580q90.jpg_.webp' },
 	{ title: '奥利奥宇宙探索礼盒限定系列星空渐变色夹心饼干赠定制流体画周边', addCart: false, price: 18.9, unit: '包', image: 'http://img.alicdn.com/img/i3/787936378/O1CN012YgZqz1wzB706Uj3z_!!787936378-0-alimamacc.jpg_580x580q90.jpg_.webp' },
 ])
-onLoad((option) => {
+watch(() => store.cartCount, () => {
+	animation.value = 'transform:scale(1.5,1.5);'
+	setTimeout(() => {
+		animation.value = 'transform:scale(1,1);'
+	}, 100)
 })
-const searchFocus = () => {
+const searchFocus = () => { // 搜索框获取焦点
 	hasSearchFocus.value = true
 }
-const formatSearch = (item) => {
+const clearSearchHistory = () => { // 清空搜索历史
+	searchHistory.value = []
+}
+const searchRecommentRefresh = () => { // 搜索推荐刷新
+	searchRecomment.value = ['有机羊肉', '有机素菜', '有机大米', '有机水果', '粽子热卖', '水果店', '牛肉']
+}
+const searchClear = () => { // 清空查询
+	search.value = ''
+}
+const formatSearch = (item) => { // 搜索推荐格式化
 	let list = []
 	item.split(search.value).map((item, index) => {
 		list.push(item)
@@ -97,6 +107,17 @@ const formatSearch = (item) => {
 		}
 	})
 	return list
+}
+const recommentClick = (item) => {// 推荐点击
+	search.value = item
+	hasSearchFocus.value = false
+}
+const searchConfirm = () => { // 搜索
+	if (search.value === '') {
+		tips.value.show({ message: `请输入查询内容`, type: 'error' })
+		return
+	}
+	hasSearchFocus.value = false
 }
 const salesChange = () => {
 	if (salesSort.value === 2) {
@@ -112,37 +133,58 @@ const priceChange = () => {
 		priceSort.value++
 	}
 }
-const openPage = (url) => {
+const goPage = (url) => {
+	hasSearchFocus.value = false
 	uni.navigateTo({ url: url })
 }
 </script>
 <style lang="less" scoped>
 .TopSearch {
-	padding-bottom: 20rpx;
 	z-index: 10;
+	width: 100%;
+	padding: 0rpx 20rpx 20rpx 20rpx;
+	box-sizing: border-box;
 
 	.SearchInput {
 		height: 60rpx;
 		background-color: #fff;
-		width: 710rpx;
+		flex-grow: 1;
 		box-sizing: border-box;
 		padding-left: 30rpx;
 		border-radius: 30rpx;
 		position: relative;
 
-		.SearchInputBtn {
-			border-radius: 30rpx;
-			height: 56rpx;
-			margin-right: 2rpx;
-			padding: 0rpx 20rpx;
-			background-color: #23a2ff;
-		}
-
 		.icon-chacha {
-			position: absolute;
-			top: 16rpx;
-			right: 100rpx;
+			margin: 0rpx 10rpx;
+			padding: 10rpx;
 			z-index: 10;
+		}
+	}
+
+	.SearchInputBtn {
+		border-radius: 30rpx;
+		height: 56rpx;
+		flex-shrink: 0;
+		padding: 0rpx 20rpx;
+		margin-left: 10rpx;
+		z-index: 10;
+		background-color: #23a2ff;
+	}
+
+	.SearchInputCount {
+		height: 56rpx;
+		padding: 0rpx 10rpx;
+		flex-shrink: 0;
+
+		.SearchInputNum {
+			position: absolute;
+			background-color: #fe432e;
+			color: #fff;
+			border-radius: 20rpx;
+			padding: 0rpx 8rpx;
+			font-size: 22rpx;
+			top: 0rpx;
+			right: 6rpx;
 		}
 	}
 }

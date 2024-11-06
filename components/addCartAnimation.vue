@@ -1,5 +1,5 @@
 <template>
-    <view class="AddCartAnimation" :class="className" :style="anims + ``" v-if="store.cartAnimation.show">
+    <view :class="className" :style="anims + ``" v-if="store.cartAnimation.show">
     </view>
 </template>
 <script setup>
@@ -8,10 +8,21 @@ import { watch, ref } from 'vue'
 const store = PublicStore()
 let anims = ref('')
 let className = ref('')
+const props = defineProps({
+    type: {
+        type: String,
+        default: 'bottom'
+    }
+})
 watch(() => store.cartAnimation, (v) => {
     if (v.show) {
-        anims.value = `top:${store.cartAnimation.top - 5}px;left:${store.cartAnimation.left - 5}px;--startX:${store.cartAnimation.left}px;--startY:${store.cartAnimation.top}px;`
-        className.value = 'AddCartAnimationShow'
+        if (props.type === 'topRight') {
+            anims.value = `top:${store.cartAnimation.top - 5}px;left:${store.cartAnimation.left - 5}px;--startX:${store.cartAnimation.left}px;--startY:${store.cartAnimation.top}px;`
+            className.value = 'AddCartAnimationShow AddCartAnimationTop'
+        } else {
+            anims.value = `top:${store.cartAnimation.top - 5}px;left:${store.cartAnimation.left - 5}px;--startX:${store.cartAnimation.left}px;--startY:${store.cartAnimation.top}px;`
+            className.value = 'AddCartAnimationShow AddCartAnimation'
+        }
         setTimeout(() => {
             store.setCartCount()
             store.setCartAnimation({ show: false, left: 0, top: 0 })
@@ -28,6 +39,16 @@ watch(() => store.cartAnimation, (v) => {
     position: fixed;
     --endX: 460rpx;
     --endY: calc(100% - 90rpx);
+}
+
+.AddCartAnimationTop {
+    width: 20rpx;
+    height: 20rpx;
+    border-radius: 50%;
+    background-color: #23a2ff;
+    position: fixed;
+    --endX: 730rpx;
+    --endY: 20rpx;
 }
 
 .AddCartAnimationShow {
