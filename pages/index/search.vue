@@ -33,7 +33,7 @@
 			</view>
 		</view>
 		<view v-else class="FlexGrow SearchResultList">
-			<scroll-view scroll-y class="SearchResult">
+			<scroll-view scroll-y class="SearchResult" :refresher-triggered="triggered" refresher-enabled @refresherrefresh="onRefresh" @refresherrestore="refresherrestore" @scrolltolower="scrolltolower">
 				<view class="SearchSort FlexRow">
 					<view @click="salesChange()" class="SearchSortItem FlexColumn FlexCenter" :class="'SearchSortSales' + salesSort">
 						<text class="SearchSortText Font666">销量</text>
@@ -51,6 +51,7 @@
 						<ColumnShopItem v-for="(item, index) in recommendList" :key="index" class="RecommendListItem" :item="item"></ColumnShopItem>
 					</grid-view>
 				</scroll-view>
+				<uni-load-more :status="loadStatus"></uni-load-more>
 			</scroll-view>
 		</view>
 	</view>
@@ -69,6 +70,9 @@ let priceSort = ref(0)
 let salesSort = ref(0)
 let hasSearchFocus = ref(true)
 let animation = ref('')
+let pageNo = ref(1)
+let triggered = ref(true)
+let loadStatus = ref('more')
 let recommentSearch = ref(['有机羊肉', '有机素菜', '有机大米', '有机水果'])
 let searchHistory = ref(['有机羊肉', '有机素菜', '有机大米', '有机水果', '橘子', '粽子热卖', '小樱桃', '粽子热卖', '水果店', '牛肉'])
 let searchRecomment = ref(['有机羊肉', '有机素菜', '有机大米', '有机水果', '橘子', '粽子热卖', '小樱桃', '粽子热卖', '水果店', '牛肉'])
@@ -86,6 +90,28 @@ watch(() => store.cartCount, () => {
 		animation.value = 'transform:scale(1,1);'
 	}, 100)
 })
+const onRefresh = () => {
+	setTimeout(() => {
+		triggered.value = false;
+	}, 2000)
+}
+const refresherrestore = () => { // 下拉刷新
+	triggered.value = true;
+	pageNo.value = 0
+	recommendList.value = recommendList.value.slice(0, 10)
+}
+const scrolltolower = () => {
+	setTimeout(() => {
+		if (recommendList.value.length > 50) {
+			loadStatus.value = 'no-more'
+		} else {
+			pageNo.value++
+			loadStatus.value = 'loading'
+			recommendList.value = recommendList.value.concat(recommendList.value.slice(0, 10))
+			loadStatus.value = 'more'
+		}
+	}, 200)
+}
 const searchFocus = () => { // 搜索框获取焦点
 	hasSearchFocus.value = true
 }

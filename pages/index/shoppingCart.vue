@@ -94,6 +94,7 @@ const onRefresh = () => {
 	triggered.value = false;
 }
 const refresherrestore = () => { // 下拉刷新
+	triggered.value = true;
 	pageNo.value = 0
 	recommendList.value = recommendList.value.slice(0, 10)
 }

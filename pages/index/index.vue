@@ -12,7 +12,7 @@
 			</view>
 		</view>
 		<view class="FlexGrow HomeList">
-			<scroll-view scroll-y class="HomeMain">
+			<scroll-view scroll-y class="HomeMain" :refresher-triggered="triggered" refresher-enabled @refresherrefresh="onRefresh" @refresherrestore="refresherrestore" @scrolltolower="scrolltolower">
 				<view class="ClassList">
 					<view class="classItem FlexColumn FlexCenter" @click="goClass(item.id)" :key="index" v-for="(item, index) in classList">
 						<image class="classItemImg" :src="item.image" alt=""></image>
@@ -31,11 +31,12 @@
 						</view>
 					</view>
 				</view>
-				<scroll-view type="custom" @scrolltolower="scrolltolower">
+				<scroll-view type="custom">
 					<grid-view type="masonry" main-axis-gap="20rpx" cross-axis-gap="20rpx" class="RecommendList">
 						<ColumnShopItem v-for="(item, index) in recommendList" :key="index" class="RecommendListItem" :item="item"></ColumnShopItem>
 					</grid-view>
 				</scroll-view>
+				<uni-load-more :status="loadStatus"></uni-load-more>
 			</scroll-view>
 		</view>
 	</Container>
@@ -49,6 +50,9 @@ import ColumnShopItem from '@/components/columnShopItem'
 import AddCartAnimation from '@/components/addCartAnimation'
 let headerSyle = ref({})
 let tips = ref(null)
+let pageNo = ref(1)
+let triggered = ref(true)
+let loadStatus = ref('more')
 let classList = ref([
 	{ title: '果蔬鲜花', id: '1111', image: 'https://img-1.pddpic.com/goods/2019-12-10/98ccf266fab125c2dfdb0288989de156.jpeg?imageView2/2/w/112/q/80/format/webp' },
 	{ title: '肉禽蛋类', id: '2222', image: 'https://img-1.pddpic.com/goods/images/2019-08-02/09dda06eca2f05ca0f32a0ceecdc2d30.jpeg?imageView2/2/w/112/q/80/format/webp' },
@@ -81,8 +85,27 @@ headerSyle.value = {
 }
 onLoad((option) => {
 })
+const onRefresh = () => {
+	setTimeout(() => {
+		triggered.value = false;
+	}, 2000)
+}
+const refresherrestore = () => { // 下拉刷新
+	triggered.value = true;
+	pageNo.value = 0
+	recommendList.value = recommendList.value.slice(0, 10)
+}
 const scrolltolower = () => {
-	recommendList.value = recommendList.value.concat(recommendList.value)
+	setTimeout(() => {
+		if (recommendList.value.length > 50) {
+			loadStatus.value = 'no-more'
+		} else {
+			pageNo.value++
+			loadStatus.value = 'loading'
+			recommendList.value = recommendList.value.concat(recommendList.value.slice(0, 10))
+			loadStatus.value = 'more'
+		}
+	}, 200)
 }
 const goClass = (id) => {
 	uni.navigateTo({
