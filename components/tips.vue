@@ -1,8 +1,8 @@
 <template>
-    <veiw class="TipsCom FlexRow FlexCenter" @click="close" v-if="hasShow">
+    <view class="TipsCom FlexRow FlexCenter" @click="close" v-if="hasShow">
         <text v-if="icon" :style="errorType[type]" class="iconfont" :class="icon"></text>
         <text :style="errorType[type]" class="FlexRow FlexCenter FontSize28 TipsComMsg" :class="{ TipsComMsgWrap: text.length > 16 }">{{ text }}</text>
-    </veiw>
+    </view>
 </template>
 <script setup>
 import { ref } from 'vue'

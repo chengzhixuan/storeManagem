@@ -7,6 +7,12 @@
             }
         },
         {
+            "path": "pages/index/shopDetail",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+        {
             "path": "pages/index/search",
             "style": {
                 "navigationBarTitleText": "搜索"

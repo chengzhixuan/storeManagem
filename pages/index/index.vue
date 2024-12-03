@@ -31,7 +31,7 @@
 						</view>
 					</view>
 				</view>
-				<scroll-view type="custom">
+				<scroll-view type="custom" @scrolltolower="scrolltolower">
 					<grid-view type="masonry" main-axis-gap="20rpx" cross-axis-gap="20rpx" class="RecommendList">
 						<ColumnShopItem v-for="(item, index) in recommendList" :key="index" class="RecommendListItem" :item="item"></ColumnShopItem>
 					</grid-view>
@@ -81,6 +81,9 @@ headerSyle.value = {
 }
 onLoad((option) => {
 })
+const scrolltolower = () => {
+	recommendList.value = recommendList.value.concat(recommendList.value)
+}
 const goClass = (id) => {
 	uni.navigateTo({
 		url: `/pages/index/classification?id=${id}`
@@ -100,17 +103,19 @@ const openPage = (url) => {
 		top: 0px;
 		position: absolute;
 		width: 100%;
-		z-index: -1;
+		z-index: 1;
 		height: 466rpx;
 		background: linear-gradient(360deg, #fff 0%, #abe4ff 100%);
 	}
 
 	.IndexHeaderLogo {
 		margin-left: 20rpx;
+		z-index: 2;
 		margin-right: 6rpx;
 	}
 
 	.IndexHeaderLeft {
+		z-index: 2;
 		font-size: 30rpx;
 	}
 }
@@ -142,6 +147,7 @@ const openPage = (url) => {
 .HomeList {
 	height: 100rpx;
 	width: 100%;
+	z-index: 2;
 	overflow: hidden;
 }
 

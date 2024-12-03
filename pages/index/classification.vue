@@ -1,7 +1,7 @@
 <template>
 	<Container type="class" class="ContainerPage">
 		<view class="TopSearch FlexRow FlexJCenter">
-			<view class="SearchInput FlexRow FlexACenter">
+			<view class="SearchInput FlexRow FlexACenter" @click="openPage('/pages/index/search')">
 				<text class="FlexGrow FontGray">榴莲千层</text>
 				<text class="SearchInputBtn FlexRow FlexACenter FontWhite">搜索</text>
 			</view>
@@ -139,6 +139,9 @@ const getList = () => {
 	if (pageNo.value === 3) { // 测试不存在下一页
 		hasNextPage.value = false
 	}
+}
+const openPage = (url) => {
+	uni.navigateTo({ url: url })
 }
 const classChagne = (v, index) => {
 	selectClass.value = index

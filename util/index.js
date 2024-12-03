@@ -72,4 +72,4 @@ function regPhone(phone) { // 正则手机号匹配
     let reg = /^((\+86)|(86)|(86-)|(86\s))?(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/;
     return reg.test(phone)
 }
-export { mainLogin, SideEffectList, compareVersion, getQueryString, regPhone, encodePhone }
+export { mainLogin, compareVersion, getQueryString, regPhone, encodePhone }

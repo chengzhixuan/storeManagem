@@ -22,7 +22,7 @@ export default {
 
 <style lang="scss">
 @import "@/static/font/iconfont.css";
-@import "@/static/styles/style.less";
-@import "@/static/styles/golbal.less";
+@import "@/static/styles/style.scss";
+@import "@/static/styles/golbal.scss";
 @import "@/uni_modules/uni-scss/index.scss";
 </style>
