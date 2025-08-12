@@ -31,7 +31,8 @@ const decimalPoint = computed(() => {
 const addShoppingCart = (e) => {
     store.setCartAnimation({ show: true, left: e.detail.x, top: e.detail.y })
 }
-const goDetail = () => {
+const goDetail = (id) => {
+    uni.navigateTo({ url: `/pages/index/shopDetail?id=${id}` })
 }
 </script>
 <style lang="less">
