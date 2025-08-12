@@ -1,0 +1,258 @@
+---
+alwaysApply: true
+---
+# StoreManagement 项目开发规范
+
+## 项目概述
+这是一个基于uni-app的商城管理系统，使用Vue 3 + Pinia + SCSS,less技术栈，支持多端运行（微信小程序、H5、App等）。
+
+## 技术栈
+- **框架**: uni-app (Vue 3)
+- **状态管理**: Pinia
+- **样式**: SCSS,less
+- **UI组件**: uni-ui组件库
+- **构建工具**: 基于uni-app CLI
+
+## 项目结构规范
+
+### 目录结构
+```
+storeManagement/
+├── api/                    # API接口层
+├── components/            # 公共组件
+├── pages/                 # 页面文件
+├── store/                 # Pinia状态管理
+├── static/                # 静态资源
+├── uni_modules/           # uni-app插件
+└── util/                  # 工具函数
+```
+
+### 命名规范
+- **文件命名**: 使用kebab-case (如: `addCartAnimation.vue`)
+- **组件命名**: 使用PascalCase (如: `ColumnShopItem`)
+- **变量命名**: 使用camelCase (如: `cartCount`)
+- **常量命名**: 使用UPPER_SNAKE_CASE (如: `BASE_URL`)
+
+## 编码规范
+
+### Vue组件规范
+1. **使用Composition API**: 优先使用`<script setup>`语法
+2. **组件导入**: 使用`@/`别名导入项目内文件
+3. **响应式数据**: 使用`ref()`和`reactive()`管理状态
+4. **生命周期**: 使用`onLoad`、`onMounted`等uni-app生命周期
+
+### 示例代码结构
+```vue
+<template>
+  <Container type="Home" class="ContainerPage">
+    <!-- 页面内容 -->
+  </Container>
+</template>
+
+<script setup>
+import { onLoad } from '@dcloudio/uni-app'
+import { ref, onMounted } from 'vue'
+import ComponentName from '@/components/componentName'
+
+// 响应式数据
+const data = ref([])
+
+// 生命周期
+onLoad((option) => {
+  // 页面加载逻辑
+})
+
+// 方法定义
+const handleClick = () => {
+  // 处理逻辑
+}
+</script>
+
+<style lang="less" scoped>
+// 样式定义
+</style>
+```
+
+## 状态管理规范
+
+### Pinia Store结构
+```javascript
+import { defineStore } from 'pinia'
+
+export const StoreName = defineStore('storeName', {
+  state: () => ({
+    // 状态定义
+  }),
+  getters: {
+    // 计算属性
+  },
+  actions: {
+    // 操作方法
+  }
+})
+```
+
+### Store使用规范
+- 在组件中通过`StoreName()`获取store实例
+- 使用`store.stateName`访问状态
+- 使用`store.actionName()`调用方法
+
+## API接口规范
+
+### 请求封装
+- 使用`@/api/axios.js`中的封装方法
+- 统一处理token和401错误
+- 支持GET、POST等请求方法
+
+### 接口调用示例
+```javascript
+import api from '@/api/axios'
+
+const response = await api({
+  url: '/api/endpoint',
+  method: 'POST',
+  data: { key: 'value' }
+})
+```
+
+## 组件开发规范
+
+### 公共组件
+- 放置在`components/`目录下
+- 使用语义化命名
+- 支持props传入和事件emit
+- 添加适当的注释和文档
+
+### 组件通信
+- 父传子: 使用props
+- 子传父: 使用emit
+- 跨组件: 使用Pinia store
+
+## 样式规范
+
+### SCSS使用
+- 使用`@import`导入样式文件
+- 遵循BEM命名规范
+- 使用变量管理颜色、字体等
+
+### 样式文件组织
+```scss
+// 全局样式
+@import "@/static/styles/golbal.scss";
+@import "@/static/styles/style.scss";
+@import "@/uni_modules/uni-scss/index.scss";
+
+// 组件样式
+@import "@/static/font/iconfont.css";
+```
+
+## 页面开发规范
+
+### 页面结构
+- 使用`Container`组件作为页面容器
+- 遵循uni-app页面生命周期
+- 支持下拉刷新和上拉加载
+
+### 路由跳转
+```javascript
+// 页面跳转
+uni.navigateTo({
+  url: '/pages/pageName/index'
+})
+
+// 带参数跳转
+uni.navigateTo({
+  url: `/pages/pageName/index?id=${id}`
+})
+```
+
+## 工具函数规范
+
+### 工具函数组织
+- 放置在`util/`目录下
+- 按功能模块组织
+- 使用ES6模块导出
+- 添加适当的错误处理
+
+### 常用工具函数
+- `mainLogin`: 微信登录
+- `compareVersion`: 版本比较
+- `encodePhone`: 手机号脱敏
+- `regPhone`: 手机号验证
+
+## 性能优化规范
+
+### 图片优化
+- 使用适当的图片格式和尺寸
+- 支持懒加载
+- 使用CDN加速
+
+### 代码优化
+- 避免不必要的重渲染
+- 合理使用computed和watch
+- 及时清理事件监听器
+
+## 错误处理规范
+
+### 全局错误处理
+- 使用try-catch包装异步操作
+- 统一的错误提示机制
+- 记录错误日志
+
+### 网络错误处理
+- 处理401未授权错误
+- 网络超时处理
+- 重试机制
+
+## 测试规范
+
+### 单元测试
+- 为工具函数编写测试
+- 测试组件props和事件
+- 测试store状态变化
+
+### 集成测试
+- 测试页面流程
+- 测试API接口
+- 测试用户交互
+
+## 部署规范
+
+### 构建配置
+- 配置环境变量
+- 优化打包体积
+- 配置CDN路径
+
+### 发布流程
+- 代码审查
+- 测试验证
+- 灰度发布
+- 监控告警
+
+## 文档维护
+
+### 代码注释
+- 为复杂逻辑添加注释
+- 使用JSDoc格式
+- 保持注释与代码同步
+
+### 项目文档
+- 更新README.md
+- 维护API文档
+- 记录重要变更
+
+## 注意事项
+
+1. **uni-app特性**: 注意不同平台的兼容性
+2. **微信小程序**: 遵循微信小程序开发规范
+3. **性能考虑**: 注意小程序包大小限制
+4. **用户体验**: 保持界面响应性和流畅性
+5. **安全性**: 注意用户数据保护和API安全
+
+---
+
+*本规范基于项目实际情况制定，随着项目发展会持续更新和完善。*
+description:
+globs:
+alwaysApply: false
+---
