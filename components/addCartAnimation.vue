@@ -24,7 +24,6 @@ watch(() => store.cartAnimation, (v) => {
             className.value = 'AddCartAnimationShow AddCartAnimation'
         }
         setTimeout(() => {
-            store.setCartCount()
             store.setCartAnimation({ show: false, left: 0, top: 0 })
         }, 100)
     }

@@ -28,9 +28,10 @@ storeManagement/
 ```
 
 ### 命名规范
-- **文件命名**: 使用kebab-case (如: `addCartAnimation.vue`)
+- **文件命名**: 使用使用camelCase (如: `cartCount.vue`)
 - **组件命名**: 使用PascalCase (如: `ColumnShopItem`)
 - **变量命名**: 使用camelCase (如: `cartCount`)
+- **css类名**: 使用PascalCase (如: `ColumnShopItem`)
 - **常量命名**: 使用UPPER_SNAKE_CASE (如: `BASE_URL`)
 
 ## 编码规范
@@ -258,7 +259,7 @@ uni.navigateTo({
 - 生成的git提交文案，请使用中文
 - 聊天窗口对话中，请使用中文
 - 链式调用的时候不需要换行
-- 变量名优先使用let
+- 变量名优先使用let 
 ---
 
 *本规范基于项目实际情况制定，随着项目发展会持续更新和完善。*

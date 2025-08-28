@@ -47,7 +47,7 @@
 			<view class="FlexRow DetailCardItem" @click="openDeliveryInfo">
 				<text class="DetailCardLable FontGray">商品</text>
 				<view class="DetailCardContent FlexGrow FlexRow FlexACenter">
-					<text class="DetailCardTag" v-for="(service, index) in services" :key="index" @click="showServiceDetail(service)">{{ service.name }}</text>
+					<text class="DetailCardTag" v-for="(service, index) in services" :key="index">{{ service.name }}</text>
 					<text class="FlexGrow"></text>
 					<text class="iconfont icon-right FontSize24 FontGray"></text>
 				</view>
@@ -55,12 +55,31 @@
 		</view>
 	</view>
 	<Tips ref="tips"></Tips>
-	<AddCartAnimation class="AddCartAnimations"></AddCartAnimation>
+	<SkuPopup ref="skuPopup"></SkuPopup>
+	<uni-popup ref="servicePopup" type="bottom" :safe-area="true">
+		<view class="ServicePopup">
+			<view class="FlexRow FlexCenter ServiceHeader">
+				<view class="ServiceTitle">服务说明</view>
+				<view class="ServiceClose" @click="servicePopup.close && servicePopup.close()">
+					<text class="iconfont icon-guanbi"></text>
+				</view>
+			</view>
+			<scroll-view scroll-y="true" class="ServiceBody">
+				<view class="ServiceItem" v-for="(item, idx) in serviceItems" :key="idx">
+					<view class="ServiceItemTitle FlexRow FlexACenter">
+						<text class="ServiceDot"></text>
+						<text class="FontBold">{{ item.title }}</text>
+					</view>
+					<view class="ServiceItemContent Font666" v-for="(line, i) in item.contents" :key="i">{{ line }}</view>
+				</view>
+			</scroll-view>
+		</view>
+	</uni-popup>
 </template>
 
 <script setup>
 import { onLoad } from '@dcloudio/uni-app'
-import AddCartAnimation from '@/components/addCartAnimation'
+import SkuPopup from '@/components/skuPopup'
 import { ref, watch, computed } from 'vue'
 import { PublicStore } from '@/store/index'
 let store = PublicStore()
@@ -86,7 +105,34 @@ let services = ref([
 	{ name: '缺必赔', icon: 'icon-dagou', detail: '如遇商品缺货，我们将第一时间通知您并给予相应补偿，保障您的权益。' },
 	{ name: '坏果包赔', icon: 'icon-dagou', detail: '收到商品如有损坏，拍照上传即可获得全额赔付，让您购物无忧。' }
 ])
-// 计算属性：显示选中的SKU文本
+// 服务说明弹窗数据
+let serviceItems = ref([
+    {
+        title: '运费规则',
+        contents: [
+            '1. 盒马鲜生/盒马mini店线上订单，单笔订单实付金额未达所在城市的免运费门槛，收取6元/单。',
+            '2. 盒马X会员店线上订单，单笔订单实付金额小于199元，收取运费，具体以页面展示为准。'
+        ]
+    },
+    {
+        title: '缺必赔',
+        contents: [
+            '若您购买的订单出现缺货，我们将对该缺货商品予以退款，并额外补偿您一张5元无门槛歉意券。'
+        ]
+    },
+    {
+        title: '慢必赔',
+        contents: [
+            '提供慢必赔服务保障，若订单超时10分钟以上送达，签收后将补偿3元至10元无门槛歉意券，具体以页面展示为准（恶劣天气等不可控因素导致延误除外）。'
+        ]
+    },
+    {
+        title: '品质保证',
+        contents: [
+            '对商品品质不满意可直接在“我的-全部订单-订单详情-申请退款”发起退款，或在“我的-页面右上角联系客服”进行售后处理。'
+        ]
+    }
+])
 let selectedSkuText = computed(() => {
 	const size = selectedSku.value.size || '请选择规格'
 	if (size === '请选择规格') {
@@ -117,11 +163,13 @@ const openSearch = () => {
 const share = () => {
 	uni.showToast({ title: '点击分享', icon: 'none' })
 }
-
-const openSkuPopup = () => {
+const goPage = (url) => {
+	uni.navigateTo({ url })
+}
+const openSkuPopup = () => { // 打开SKU弹窗
 	skuPopup.value.open()
 }
-const showServiceDetail = () => {
+const openDeliveryInfo = () => { // 打开服务说明弹窗
 	servicePopup.value.open()
 }
 </script>
@@ -267,6 +315,73 @@ const showServiceDetail = () => {
 			border-radius: 8rpx;
 			padding: 4rpx 10rpx;
 			margin-right: 10rpx;
+		}
+	}
+}
+
+.ServicePopup {
+	background: #fff;
+	border-radius: 24rpx 24rpx 0 0;
+	max-height: 80vh;
+	overflow: hidden;
+
+	.ServiceHeader {
+		position: relative;
+		padding: 30rpx 80rpx 20rpx 30rpx;
+		.ServiceTitle {
+			font-size: 32rpx;
+			font-weight: 600;
+			color: #333;
+		}
+
+		.ServiceClose {
+			position: absolute;
+			right: 20rpx;
+			top: 20rpx;
+			width: 60rpx;
+			height: 60rpx;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.iconfont {
+				font-size: 40rpx;
+				color: #999;
+			}
+		}
+	}
+
+	.ServiceBody {
+		max-height: 60vh;
+		padding: 20rpx 30rpx 40rpx 30rpx;
+		box-sizing: border-box;
+	}
+
+	.ServiceItem {
+		margin-bottom: 24rpx;
+
+		.ServiceItemTitle {
+			font-size: 28rpx;
+			color: #333;
+			margin-bottom: 12rpx;
+
+			.FontBold {
+				font-weight: 600;
+			}
+
+			.ServiceDot {
+				width: 12rpx;
+				height: 12rpx;
+				border-radius: 50%;
+				background: #23a2ff;
+				margin-right: 12rpx;
+			}
+		}
+
+		.ServiceItemContent {
+			font-size: 24rpx;
+			line-height: 1.7;
+			color: #666;
 		}
 	}
 }

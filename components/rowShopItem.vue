@@ -35,6 +35,7 @@ const decimalPoint = computed(() => {
     return arr[1] ? arr[1] : ''
 })
 const addShoppingCart = (e) => {
+    store.setCartCount()
     store.setCartAnimation({ show: true, left: e.detail.x, top: e.detail.y })
 }
 const goDetail = (id) => {
